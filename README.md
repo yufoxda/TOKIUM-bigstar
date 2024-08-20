@@ -24,4 +24,7 @@ docker compose up -d
 すべてが正常に動作している場合、ブラウザで http://localhost:8080 にアクセスして、アプリケーションが期待通りに動作しているか確認
 
 ### メンバー紹介
--清水はるき
+- shimiharu1012
+- yushidayo
+- okamura
+- Gild
