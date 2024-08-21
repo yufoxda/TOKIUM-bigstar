@@ -2,20 +2,22 @@ services:
   db:
     image: postgres:latest
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: bigstar
+      POSTGRES_USER: postgres
 
   test_db:
     image: postgres:latest
     volumes:
-      - ./tmp/test_db:/var/lib/postgresql/data
+      - test_db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: test_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-    tmpfs:
-      - /tmp/lib/postgresql/data
+    # tmpfs:
+    #   - /tmp/lib/postgresql/data
 
   app:
     build:
@@ -86,3 +88,5 @@ services:
 
 volumes:
   node_modules:
+  db_data:
+  test_db:

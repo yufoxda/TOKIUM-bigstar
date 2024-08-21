@@ -50,6 +50,10 @@ gem 'mutex_m'
 # install ffi
 gem 'ffi'
 
+# install devise_token_auth
+gem 'devise'
+gem 'devise_token_auth'
+
 # gem 'therubyracer', platforms: :ruby
 
 group :development, :test do
