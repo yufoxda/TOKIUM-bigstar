@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 
 import Dashboard from './components/Dashboard'
@@ -17,16 +17,14 @@ function App() {
   }, [])
 
   return (
-    <>
-      <div>
+    <div>
       <BrowserRouter>
-        <Switch>
-          <Route exact path={"/"} component={Home} />
-          <Route exact path={"/dashboard"} component={Dashboard} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
       </BrowserRouter>
-      </div>
-    </>
+    </div>
   )
 }
 
