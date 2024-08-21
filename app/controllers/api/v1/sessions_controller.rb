@@ -1,10 +1,35 @@
-class CustomSessionsController < DeviseTokenAuth::SessionsController
-  private
+module Api
+  module V1
+    class SessionsController < ApplicationController
+      # skip_before_action :verify_authenticity_token
+      def login
+        @user User.find_by(email: session_params@[:email])
 
-  def render_create_success
-    render json: {
-      data: @resource.as_json(methods: :authority),
-      message: 'ログインに成功しました。'
-    }
+        if @user && @user.authenticate(session_params[:password])
+          login!
+          render json: { logged_in: true, user: @user }
+        else
+          render json: { status: 401, errors: ['no such user', 'verify credentials and try again'] }
+        end
+      end
+
+      def logout
+        reset_session
+        render json: { status: 200, logged_out: true }
+      end
+
+      def logged_in?
+        if @current_user
+          render json: { logged_in: true, user: @current_user }
+        else
+          render json: { logged_in: false, message: 'no such user' }
+        end
+      end
+
+      private
+      def session_params
+        params.require(:user).permit(:username, :email, :password)
+      end
+    end
   end
 end
