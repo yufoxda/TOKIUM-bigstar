@@ -8,6 +8,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const { csrfToken } = useCsrf();
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
       fetch(`${API_URL}/users/current`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'X-CSRF-Token': useCsrf().csrfToken,
+          'X-CSRF-Token': csrfToken,
         },
       })
       .then((response) => response.json()) // 必要に応じてJSONをパース
