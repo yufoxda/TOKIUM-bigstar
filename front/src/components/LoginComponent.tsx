@@ -22,13 +22,14 @@ const LoginComponent: React.FC = () => {
     console.error('Googleログインエラー', error);
   };
 
+  console.log(process.env.REDIRECT_URI)
   return (
     <GoogleLogin
-      clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}
+      clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
       buttonText="Googleでログイン"
       onSuccess={handleSuccess}
       onFailure={handleFailure}
-      cookiePolicy={'single_host_origin'}
+      redirectUri={process.env.REDIRECT_URI}
     />
   );
 };
