@@ -1,7 +1,8 @@
 class Api::V1::CsrfController < ApplicationController
-  skip_before_action :authenticate_request, only: [:index]
+  skip_before_action :authenticate_request
 
   def token
-    render json: { csrf_auth_token: form_authenticity_token }
+    csrf_auth_token = SecureRandom.base64(32)
+    render json: { csrf_auth_token: csrf_auth_token }
   end
 end

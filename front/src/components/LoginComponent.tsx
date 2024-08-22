@@ -13,6 +13,8 @@ const LoginComponent: React.FC = () => {
       console.log('JWT:', jwt);
       console.log('User:', user);
       // ここでJWTを保存し、アプリ内で使用します
+      localStorage.setItem('authToken', jwt);
+
     } catch (error) {
       console.error('Googleログインに失敗しました', error);
     }

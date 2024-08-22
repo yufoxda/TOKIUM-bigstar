@@ -16,6 +16,9 @@ module App
     # set rakes
     config.autoload_paths += %W(#{config.root}/lib)
 
+    # set services
+    config.autoload_paths += %W(#{config.root}/app/services)
+
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: '_cookie_name'
 

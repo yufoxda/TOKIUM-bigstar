@@ -1,13 +1,34 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useCsrf } from './useCsrf';
+
 const API_URL = 'http://localhost:3000/api/v1';
 
-const AuthContext = createContext();
-export const useAuth = () => useContext(AuthContext);
+// AuthContextの型定義
+interface AuthContextType {
+  token: string;
+  logout: () => void;
+  setToken: (token: string) => void;
+  currentUser: any; // 型を適切に設定するべきですが、暫定的に any を使用しています
+  setCurrentUser: (user: any) => void;
+}
 
-export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [token, setToken] = useState<string>("");
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const { csrfToken } = useCsrf();
 
   useEffect(() => {
@@ -28,9 +49,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       fetch(`${API_URL}/users/current`, {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
           'X-CSRF-Token': csrfToken,
+          'Content-Type': 'application/json',
         },
       })
       .then((response) => response.json()) // 必要に応じてJSONをパース
@@ -40,7 +63,7 @@ export const AuthProvider = ({ children }) => {
         logout();
       });
     }
-  }, [token]);
+  }, [token, csrfToken]);
 
   const logout = () => {
     setCurrentUser(null);
@@ -53,4 +76,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-}
+};
