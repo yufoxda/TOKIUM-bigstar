@@ -7,6 +7,8 @@ const ProtectedRoute: React.FC = () => {
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
+  } else {
+    return <Navigate to="/contents" />;
   }
 
   return <Outlet />;

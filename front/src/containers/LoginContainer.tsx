@@ -1,24 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import React from 'react';
 import LoginComponent from '../components/LoginComponent';
+import { useAuth } from '../hooks/useAuth';
 
 const LoginContainer: React.FC = () => {
-  const navigate = useNavigate();
   const { login } = useAuth();
-  const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = async (email: string, password: string) => {
-    const result = await login(email, password);
-    if (result.success) {
-      navigate('/contents');  // ログイン成功時に/contentsへリダイレクト
-    } else {
-      setError(result.error || 'Login failed');
-      navigate('/login');  // ログイン失敗時に/loginへリダイレクト
-    }
+  const handleLogin = (email: string, password: string) => {
+    login(email, password);
   };
 
-  return <LoginComponent onLogin={handleLogin} error={error} />;
+  return <LoginComponent onLogin={handleLogin} />;
 };
 
 export default LoginContainer;
