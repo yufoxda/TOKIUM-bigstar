@@ -1,6 +1,14 @@
 class ApplicationController < ActionController::API
   before_action :authenticate_request
-  protect_from_forgery
+  rescue_from ActionController::RoutingError, with: :not_found
+
+  def not_found
+    if request.path == '/favicon.ico'
+      head :not_content
+    else
+      super
+    end
+  end
 
   protected
 
