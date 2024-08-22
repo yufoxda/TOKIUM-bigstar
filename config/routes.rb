@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :hello, only: [:index]
-
       post '/signup', to: 'registrations#signup'
 
       post '/login', to: 'sessions#login'

@@ -1,31 +1,24 @@
-import { useEffect, useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import ContentsPage from './pages/ContentsPage';
+import ProtectedRoute from './router/ProtectedRoute';
+import { useAuth } from './hooks/useAuth';
 
-import Dashboard from './components/Dashboard'
-import Home from './components/Home'
-
-function App() {
-  const [count, setCount] = useState(0)
-  const [posts, setPosts] = useState([])
-  const API_BASE_URL = 'http://localhost:3000'
-
-  useEffect(() => {
-    fetch(`${API_BASE_URL}/api/v1/hello`)
-      .then((res) => res.json())
-      .then((posts) => setPosts(posts))
-  }, [])
+const App: React.FC = () => {
+  const { isAuthenticated } = useAuth();
 
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<Navigate to={isAuthenticated ? "/contents" : "/login"} />} />
+        <Route path="/contents" element={<ProtectedRoute />}>
+          <Route index element={<ContentsPage />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
