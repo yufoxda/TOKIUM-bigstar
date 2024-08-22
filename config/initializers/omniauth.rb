@@ -10,5 +10,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
         }
       end)
   }
+  OmniAuth.config.silence_get_warning = true
+  OmniAuth.config.request_validation_phase = nil
   OmniAuth.config.allowed_request_methods = [:post, :get]
 end

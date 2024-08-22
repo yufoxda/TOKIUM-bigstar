@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
   before_action :authenticate_request
+  protect_from_forgery
 
   protected
 
@@ -7,16 +8,16 @@ class ApplicationController < ActionController::API
     header = request.headers['Authorization']
     header = header.split(' ').last if header
     begin
-      @decoded = JsonWebToken.decode(header)
+      @decoded = JwtService.decode(header)
       if @decoded["provider"] == "guest"
-        @current_user = User.find_by!(email: @decoded["user_id"])
+        @current_user = User.find(@decoded["user_id"])
       else
         user_auth = UserAuthentication.find_by(uid: @decoded["google_user_id"], provider: @decoded["provider"])
         @current_user = user_auth.user if user_auth
       end
-
+      Rails.logger.info(@current_user)
       unless @current_user
-        raise ActiveRecord::RecordNotFound, "User not found"
+        raise ActiveRecord::RecordNotFound, 'User not found'
       end
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError => e
       Rails.logger.error "認証エラー: #{e.message}"
@@ -24,4 +25,3 @@ class ApplicationController < ActionController::API
     end
   end
 end
-

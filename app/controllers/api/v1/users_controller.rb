@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate_request, only: [:index, :show]
-  
+
   # それぞれアプリ要件に従って設定
   def index; end
   def show; end
@@ -15,5 +15,5 @@ class Api::V1::UsersController < ApplicationController
       render json: { error: '認証情報を取得できません' }, status: :unauthorized
     end
   end
-  
+
 end

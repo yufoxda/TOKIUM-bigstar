@@ -19,12 +19,12 @@ const HomePage = () => {
   const handleGoogleAuth = (e) => {
     e.preventDefault()
     const form = document.createElement('form');
-    form.method = 'GET';
+    form.method = 'POST';
     form.action = 'http://localhost:3000/auth/google_oauth2/';
     document.body.appendChild(form);
     form.submit();
   }
-  
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="space-y-4">

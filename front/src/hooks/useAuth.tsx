@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useCsrf } from './useCsrf';
 const API_URL = 'http://localhost:3000/api/v1';
 
 const AuthContext = createContext();
@@ -28,6 +29,7 @@ export const AuthProvider = ({ children }) => {
       fetch(`${API_URL}/users/current`, {
         headers: {
           Authorization: `Bearer ${token}`,
+          'X-CSRF-Token': useCsrf().csrfToken,
         },
       })
       .then((response) => response.json()) // 必要に応じてJSONをパース

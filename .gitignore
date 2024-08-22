@@ -38,3 +38,4 @@ yarn-debug.log*
 Gemfile.lock
 app/credentials/*
 app/.env.local
+.env.local

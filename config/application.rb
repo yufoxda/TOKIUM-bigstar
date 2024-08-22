@@ -17,16 +17,16 @@ module App
     config.autoload_paths += %W(#{config.root}/lib)
 
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, key: '_cookie_name'      
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_cookie_name'
 
     if Rails.env.development?
-      Dotenv.load("app/.env.local")
-    
+      Dotenv.load(".env.local")
+
     elsif Rails.env.test?
-      Dotenv.load("app/.env.test")
-    
+      Dotenv.load(".env.test")
+
     else
-      Dotenv.load("app/.env.production")
+      Dotenv.load(".env.production")
     end
 
     # Configuration for the application, engines, and railties goes here.

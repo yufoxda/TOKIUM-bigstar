@@ -1,8 +1,9 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate_request, only: [:create]
+  protect_from_forgery
 
   def create
-    frontend_url = "http://localhost:8080"
+    frontend_url = 'http://localhost:8080'
     user_info = request.env['omniauth.auth']
     google_user_id = user_info['uid']
     provider = user_info['provider']
@@ -12,13 +13,13 @@ class SessionsController < ApplicationController
 
     if user_authentication
       Rails.logger.info("アプリユーザー登録されている")
-      redirect_to "#{frontend_url}/contents?token=#{token}", allow_other_host: true
+      redirect_to "#{frontend_url}/MyPage?token=#{token}", allow_other_host: true
     else
       Rails.logger.info("まだアプリユーザー登録されていない")
       # ユーザーを作成(カラムはアプリの内容によって変更する)
-      user = User.create(name: "新規ユーザー", achievement: 0, current_avatar_url: "/default/default_player.png")
+      user = User.create(nickname: "新規ユーザー", achievement: 0, current_avatar_url: "/default/default_player.png")
       UserAuthentication.create(user_id: user.id, uid: google_user_id, provider: provider)
-      redirect_to "#{frontend_url}/?token=#{token}", allow_other_host: true
+      redirect_to "#{frontend_url}/MyPage?token=#{token}", allow_other_host: true
     end
   end
 
@@ -32,5 +33,5 @@ class SessionsController < ApplicationController
     JWT.encode(payload, hmac_secret, 'HS256')
   end
 
-  
+
 end
