@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
       redirect_to "#{frontend_url}/contents?token=#{token}", allow_other_host: true
     else
       # ユーザーを作成(カラムはアプリの内容によって変更する)
-      user = User.create(name: user_info['name'], email: user_info['email'], role: 'user')
+      user = User.create(name: user_info['info']['name'], email: user_info['info']['email'], role: 'user')
       UserAuthentication.create(user_id: user.id, uid: google_user_id, provider: provider)
       redirect_to "#{frontend_url}/contents?token=#{token}", allow_other_host: true
     end
