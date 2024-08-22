@@ -36,3 +36,5 @@ yarn-debug.log*
 .yarn-integrity
 .browserslistrc
 Gemfile.lock
+app/credentials/*
+app/.env.local

@@ -1,5 +1,5 @@
 require_relative "boot"
-
+require "dotenv"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -15,6 +15,19 @@ module App
 
     # set rakes
     config.autoload_paths += %W(#{config.root}/lib)
+
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_cookie_name'      
+
+    if Rails.env.development?
+      Dotenv.load("app/.env.local")
+    
+    elsif Rails.env.test?
+      Dotenv.load("app/.env.test")
+    
+    else
+      Dotenv.load("app/.env.production")
+    end
 
     # Configuration for the application, engines, and railties goes here.
     #
