@@ -17,7 +17,7 @@ class Api::V1::KeihiController < ApplicationController
     render json: { error: 'Record not found' }, status: :not_found
   end
 
-  # POST /api/v1/keihi/get_by_user
+  # GET /api/v1/keihi/get_by_user
   # あるユーザーのすべての申請を取得する
   def get_by_user
     @spend_requests = SpendRequest.where(user_id: params[:user_id])
