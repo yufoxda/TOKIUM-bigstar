@@ -1,5 +1,3 @@
-
-
 /*
 ---DB input--------
 - 利用日
@@ -19,18 +17,18 @@
 - 不許可ボタン
 */
 
-const SpendRequestForm = () =>{
-    return (
-        <div className="w-screen bg-red-300">
-            <div className="h-1/6 bg-red-300">入力フォーム</div>
+const SpendRequestForm = () => {
+  return (
+    <div className="w-screen bg-red-300">
+      <div className="h-1/6 bg-red-300">入力フォーム</div>
 
-            <div className="h-4/6 bg-blue-300 flex">
-                <div className="bg-teal-100 w-1/2">left</div>
-                <div className="bg-teal-400 w-1/2">right</div>
-            </div>
-            <div className="h-1/6 bg-green-300">申請ボタンなど</div>
-        </div>
-    )
-}
+      <div className="h-4/6 bg-blue-300 flex">
+        <div className="bg-teal-100 w-1/2">left</div>
+        <div className="bg-teal-400 w-1/2">right</div>
+      </div>
+      <div className="h-1/6 bg-green-300">申請ボタンなど</div>
+    </div>
+  );
+};
 
-export default SpendRequestForm
+export default SpendRequestForm;
