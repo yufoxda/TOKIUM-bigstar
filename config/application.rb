@@ -22,6 +22,10 @@ module App
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: '_cookie_name'
 
+    # timezone
+    config.time_zone = 'Asia/Tokyo'
+    config.active_record.default_timezone = :local
+
     if Rails.env.development?
       Dotenv.load(".env.local")
 

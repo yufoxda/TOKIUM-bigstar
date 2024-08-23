@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 
@@ -24,22 +24,20 @@ const HomePage = () => {
     document.body.appendChild(form);
     form.submit();
   }
+  if (currentUser) {
+    navigate('/contents');
+  }else{
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <div className="space-y-4">
+            <button onClick={handleGoogleAuth} className="btn btn-accent gap-2 w-full">
+              Sign in with Google
+            </button>
 
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
-      <div className="space-y-4">
-        {currentUser ? (
-          <Link to="/contents" className="btn btn-accent gap-2 w-full">
-            Show Contents
-          </Link>
-        ) : (
-          <button onClick={handleGoogleAuth} className="btn btn-accent gap-2 w-full">
-            Sign in with Google
-          </button>
-        )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default HomePage;

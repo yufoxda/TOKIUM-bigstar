@@ -12,10 +12,16 @@ export const ContentsPage = () => {
     console.log('Logout');
     navigate('/');
   }
-  return (
-    <div>
-      <h1>ContentsPage</h1>
-    </div>
-  );
+
+  if (!currentUser) {
+    navigate('/');
+  }else{
+    return (
+      <div>
+        <h1>ContentsPage</h1>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+    );
+  }
 };
 export default ContentsPage;
