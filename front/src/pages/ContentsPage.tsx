@@ -8,7 +8,6 @@ export const ContentsPage = () => {
 
   const handleLogout = () => {
     logout();
-    setCurrentUser(null);
     console.log('Logout');
     navigate('/');
   }
