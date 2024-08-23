@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      post '/signup', to: 'registrations#signup'
+# google認証にアクセス
+get '/auth/:provider/callback', to: 'sessions#create'
+get '/favicon.ico', to: proc{ [204, {}, []] }
 
-      post '/login', to: 'sessions#login'
-      delete '/logout', to: 'sessions#logout'
-      get '/logged_in', to: 'sessions#logged_in?'
-    
-    end
+# ユーザー登録のルート(API)
+namespace :api do
+  namespace :v1 do
+      # カレントユーザーの呼び出し
+    post 'users/current', to: 'users#current'
+    get 'csrf_token', to: 'csrf#token'
   end
+end
 end

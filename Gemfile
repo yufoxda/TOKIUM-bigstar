@@ -53,7 +53,11 @@ gem 'ffi'
 # install devise_token_auth
 gem 'devise'
 gem 'devise_token_auth'
-
+gem "dotenv-rails"
+gem "omniauth"
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-google-oauth2'
+gem 'jwt'
 # gem 'therubyracer', platforms: :ruby
 
 group :development, :test do
