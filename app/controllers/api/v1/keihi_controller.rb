@@ -39,6 +39,29 @@ class Api::V1::KeihiController < ApplicationController
     render json: { error: e.message }, status: :internal_server_error
   end
 
+  # DELETE /api/v1/keihi/delete/:id
+  # 申請を削除する
+  def delete
+    @spend_request = SpendRequest.find(params[:id])
+    @spend_request.destroy
+    render json: { message: 'Record deleted' }, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Record not found' }, status: :not_found
+  end
+
+  # PUT /api/v1/keihi/update/:id
+  # 申請を更新する
+  def update
+    @spend_request = SpendRequest.find(params[:id])
+    if @spend_request.update(spend_request_params)
+      render json: @spend_request, status: :ok
+    else
+      render json: { errors: @spend_request.errors.full_messages }, status: :unprocessable_entity
+    end
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Record not found' }, status: :not_found
+  end
+
   private
 
   def spend_request_params

@@ -13,6 +13,8 @@ namespace :api do
     post 'keihi/create', to: 'keihi#create'
     get 'keihi/index', to: 'keihi#index'
     post 'keihi/get_by_user', to: 'keihi#get_by_user'
+    delete 'keihi/delete/:id', to: 'keihi#delete'
+    put 'keihi/update/:id' , to: 'keihi#update'
   end
 end
 end
