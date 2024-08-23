@@ -50,6 +50,9 @@ gem 'mutex_m'
 # install ffi
 gem 'ffi'
 
+# install Serializer
+gem 'active_model_serializers'
+
 # install devise_token_auth
 gem 'devise'
 gem 'devise_token_auth'

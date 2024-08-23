@@ -9,6 +9,10 @@ namespace :api do
       # カレントユーザーの呼び出し
     post 'users/current', to: 'users#current'
     get 'csrf_token', to: 'csrf#token'
+    get 'keihi/show', to: 'keihi#show'
+    post 'keihi/create', to: 'keihi#create'
+    get 'keihi/index', to: 'keihi#index'
+    post 'keihi/get_by_user', to: 'keihi#get_by_user'
   end
 end
 end
