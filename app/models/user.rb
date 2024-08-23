@@ -10,4 +10,6 @@
 #  profile          :text
 #  role             :text
 class User < ApplicationRecord
+  has_many :spend_requests
+  has_many :user_authentications
 end
