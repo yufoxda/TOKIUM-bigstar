@@ -17,7 +17,7 @@ const itemList : Item[]=[
 
 const SideBar = () =>{
     return (
-        <div className="w-80 px-3 py-4 ">
+        <div className="w-80 px-3 py-4 overflow-auto">
             {(() => {
                 const items = [];
                 items.push(<button className="bg-yellow-300">新規作成</button>)
