@@ -8,7 +8,8 @@ interface Item {
 const itemList : Item[]=[
     "承認待ち1",
     "承認待ち2",
-    "承認済み1"
+    "承認済み1",
+    
 ]
 
 //  className="fixed top-0 left-0 z-40 w-80 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar"
@@ -16,10 +17,12 @@ const itemList : Item[]=[
 
 const SideBar = () =>{
     return (
-        <div className="w-80 px-3 py-4 ">
+        <div className="w-80 px-3">
+            <button className="bg-yellow-300">新規作成</button>
+            <div className="h-svh h-overflow-y-hidden bg-black">
             {(() => {
                 const items = [];
-                items.push(<button className="bg-yellow-300">新規作成</button>)
+                // items.push(<button className="bg-yellow-300">新規作成</button>)
                 for (let i = 0; i < itemList.length; i++) {
                     items.push(<button className="h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent">{itemList[i]}</button>)
                 }
@@ -29,6 +32,7 @@ const SideBar = () =>{
                     </ul>
                 );
             })()}
+            </div>
         </div>
         // <div className="w-96 bg-blue-100"><p>aaa</p></div>
 

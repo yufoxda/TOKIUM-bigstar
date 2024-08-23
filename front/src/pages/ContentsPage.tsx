@@ -14,9 +14,9 @@ export const ContentsPage = () => {
     navigate('/');
   }else{
     return (
-      <div className="w-screen">
-        <HeaderComponent />
-        <div className="flex h-screen">
+      <div className="w-screen h-screen bg-blue-100">
+        {/* {<HeaderComponent />} */}
+        <div className="flex">
           <SideBar/>
           <SpendRequestForm/>
         </div>  
