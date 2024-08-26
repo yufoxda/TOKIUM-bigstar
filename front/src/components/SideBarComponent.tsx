@@ -88,12 +88,12 @@ function calculateTotalAmount(items: SpendRequestItem[]): number {
 
 const SideBar = () =>{
     return (
-        <div className="w-80 px-3 h-full bg-gray-200 ">
+        <div className="w-80  px-3 h-full bg-gray-200 ">
             <div className="my-5 w-full flex justify-center">
                 <button className="bg-yellow-300  w-64">新規作成</button>
             </div>
             
-            <div className=" h-overflow-y-hidden">
+            <div className=" h-overflow-y-hidden ">
             {(() => {
                 const items = [];
                 // items.push(<button className="bg-yellow-300">新規作成</button>)
@@ -127,7 +127,6 @@ const SideBar = () =>{
             })()}
             </div>
         </div>
-        // <div className="w-96 bg-blue-100"><p>aaa</p></div>
 
     )
 }
