@@ -17,9 +17,12 @@ const itemList : Item[]=[
 
 const SideBar = () =>{
     return (
-        <div className="w-80 px-3">
-            <button className="bg-yellow-300">新規作成</button>
-            <div className="h-svh h-overflow-y-hidden bg-black">
+        <div className="w-80 px-3 h-full bg-gray-200 ">
+            <div className="my-5 w-full flex justify-center">
+                <button className="bg-yellow-300  w-64">新規作成</button>
+            </div>
+            
+            <div className=" h-overflow-y-hidden">
             {(() => {
                 const items = [];
                 // items.push(<button className="bg-yellow-300">新規作成</button>)
@@ -27,7 +30,7 @@ const SideBar = () =>{
                     items.push(<button className="h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent">{itemList[i]}</button>)
                 }
                 return (
-                    <ul className="space-y-12 font-medium">
+                    <ul className="space-y-5 font-medium">
                         {items}
                     </ul>
                 );

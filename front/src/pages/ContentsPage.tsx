@@ -8,20 +8,21 @@ export const ContentsPage = () => {
   const { currentUser, token, logout, setCurrentUser } = useAuth();
   const navigate = useNavigate();
 
-
-
   if (!currentUser) {
     navigate('/');
-  }else{
+  } else {
     return (
-      <div className="w-screen h-screen bg-blue-100">
-        {/* {<HeaderComponent />} */}
-        <div className="flex">
-          <SideBar/>
-          <SpendRequestForm/>
-        </div>  
+      <div className="w-screen h-screen flex flex-col">
+        <HeaderComponent />
+        <div className="flex flex-grow">
+          <SideBar />
+          <div className="flex-grow">
+            <SpendRequestForm />
+          </div>
+        </div>
       </div>
     );
   }
 };
+
 export default ContentsPage;

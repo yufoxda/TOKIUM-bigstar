@@ -11,10 +11,9 @@ const HeaderComponent = () =>{
         navigate('/');
       }
     return (
-        <div className="h-14 bg-yellow-200 flex items-center relative sticky top-0">
+        <div className="w-full h-14 border-gray-200 flex-none flex items-center relative bg-gray-300">
             <div className="mx-3 flex">
-                <div className="border border-black">アプリ名</div>
-                
+                <div className="text-4xl font-bold">BIG STAR</div>
             </div>
             <div className="absolute right-0 flex items-center mx-3">
                 <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-neutral-300 mr-3">
