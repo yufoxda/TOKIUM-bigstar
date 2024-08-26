@@ -60,6 +60,8 @@ gem "dotenv-rails"
 gem "omniauth"
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-google-oauth2'
+gem 'google-api-client'
+gem 'signet'
 gem 'jwt'
 # gem 'therubyracer', platforms: :ruby
 
