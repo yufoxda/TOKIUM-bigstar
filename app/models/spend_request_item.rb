@@ -9,7 +9,7 @@
 #   status: string
 #   spend_to: text
 
-class SpendRequest < ApplicationRecord
-  belongs_to :user
-  has_many :spend_request_item
+class SpendRequestItem < ApplicationRecord
+    belongs_to :spend_request
 end
+  
