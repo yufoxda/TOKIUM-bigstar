@@ -6,17 +6,22 @@ const SpendRequestForm = () => {
                 アクションによって変更
             </div>
             {/* 入力フォームボディ */}
-            <div className="grow overflow-hidden flex">
+            <div className="flex-grow h-full overflow-hidden flex">
                 {/* 画像のアップロードおよびプレビュー機能を実装したい */}
                 <div className="w-1/2 min-w-fit p-4">
                     <input type="file" name="example" accept="img/jpg, img/png"></input>
                 </div>
                 {/* ------------------------- */}
-                <div className="overflow-y-auto w-1/2 p-4">
-                    <div className="mb-4">
-                        <button class="bg-blue-400 text-white">Googleカレンダーから入力</button>
+                <div className="w-1/2 p-4 overflow-y-auto">
+                    <div className="mb-4 flex flex-row">
+                        <div className="w-1/2">
+                            <button class="bg-blue-400 text-white">Googleカレンダーから入力</button>
+                        </div>
+                        <div className="w-1/2 self-center">
+                            <p>何個目の経費か</p>
+                        </div>
                     </div>
-                    <div className="mx-auto w-full h-hull p-3 ">
+                    <div className="mx-auto w-full h-full p-3 ">
                         <div className="my-2">
                             <label className="text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
                             <input datepicker id="default-datepicker" type="date" className="inputcss" placeholder="Select date"/>
@@ -71,11 +76,11 @@ const SpendRequestForm = () => {
                 </div>
             </div>
             {/* 入力フォームフッター */}
-            <div className="h-12 flex-none flex items-center justify-end bg-gray-100 ">
-                <div className="h-12 flex-none flex items-center justify-end px-3 py-2">
-                    <button>新規作成</button>
-                    <button>キャンセル</button>
-                </div>                
+            <div className="h-12 flex-none bottom-0 flex items-center justify-end bg-gray-100 px-5">
+                <div className="flex gap-4 px-2">
+                <button className="bg-red-500 text-white px-4 py-2">キャンセル</button>
+                    <button className="bg-green-500 text-white px-4 py-2">新規作成</button>
+                </div>
             </div>
         </div>
     )
