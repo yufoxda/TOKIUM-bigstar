@@ -6,6 +6,7 @@ const SpendRequestForm = () => {
                 アクションによって変更
             </div>
             {/* 入力フォームボディ */}
+            <form>
             <div className="flex-grow h-full overflow-hidden flex">
                 {/* 画像のアップロードおよびプレビュー機能を実装したい */}
                 <div className="w-1/2 min-w-fit p-4">
@@ -75,6 +76,8 @@ const SpendRequestForm = () => {
                     </div>
                 </div>
             </div>
+             
+            </form>
             {/* 入力フォームフッター */}
             <div className="h-12 flex-none bottom-0 flex items-center justify-end bg-gray-100 px-5">
                 <div className="flex gap-4 px-2">

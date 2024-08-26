@@ -8,9 +8,12 @@ export const ContentsPage = () => {
   const { currentUser, token, logout, setCurrentUser } = useAuth();
   const navigate = useNavigate();
 
+  
+
   if (!currentUser) {
     navigate('/');
   } else {
+    console.log('Current User:', currentUser.name);
     return (
       <div className="w-screen h-screen flex flex-col">
         <HeaderComponent />
