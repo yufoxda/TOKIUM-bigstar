@@ -48,8 +48,8 @@ class Api::V1::KeihiController < ApplicationController
   def create
     # Strong Parametersを使用してJSONのデータを取得
     spend_request_params = params.require(:spend_request).permit(
-      :user_id, :status, :spend_to,
-      spend_request_item: [:date_of_use, :amount, :spend_to, :keihi_class, :purpose, :invoice_number, :contact_number, :memo, :image_save]
+      :user_id, :status, :spend_to, :purpose,
+      spend_request_item: [:date_of_use, :amount, :keihi_class, :invoice_number, :contact_number, :memo, :image_save]
     )
     # トランザクションを使用して一括保存
     SpendRequest.transaction do
@@ -57,16 +57,15 @@ class Api::V1::KeihiController < ApplicationController
       spend_request = SpendRequest.create!(
         user_id: spend_request_params[:user_id],
         status: spend_request_params[:status],
-        spend_to: spend_request_params[:spend_to]
+        spend_to: spend_request_params[:spend_to],
+        purpose: spend_request_params[:purpose]
       )
       # 関連するSpendRequestItemsを作成
       spend_request_params[:spend_request_item].each do |item|
-        spend_request.spend_request_items.create!(
+        spend_request.spend_request_item.create!(
           date_of_use: item[:date_of_use],
           amount: item[:amount],
-          spend_to: item[:spend_to],
           keihi_class: item[:keihi_class],
-          purpose: item[:purpose],
           invoice_number: item[:invoice_number],
           contact_number: item[:contact_number],
           memo: item[:memo],
@@ -131,6 +130,6 @@ class Api::V1::KeihiController < ApplicationController
   private
 
   def spend_request_params
-    params.require(:spend_request).permit(:user_id, :status, :date_of_use, :amount, :spend_to, :keihi_class, :purpose, :invoice_number, :contact_number, :memo, :image_save)
+    params.require(:spend_request).permit(:user_id, :status, :date_of_use, :amount,:keihi_class,  :invoice_number, :contact_number, :memo, :image_save)
   end
 end
