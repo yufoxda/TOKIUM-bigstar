@@ -123,63 +123,58 @@ const SpendRequestForm = () => {
     };
     
     return (
+        <form action="" method="post" onSubmit={handleSubmit} className="w-full h-full">
         <div className="w-full h-full flex flex-col">
             {/* 入力フォームヘッダー */}
             <div className="h-fit flex-none text-3xl p-2">
                 アクションによって変更
             </div>
             {/* 入力フォームボディ */}
-            <div className="w-full flex-grow overflow-hidden flex">
+            <div className="w-full h-full flex-grow flex overflow-auto">
                 {/* 画像のアップロードおよびプレビュー機能を実装したい */}
-                <form action="" method="post"  className="w-full overflow-hidden">
-                
-                    
                     {/* ------------------------- */}
-                    <div className="w-full">
+                    <div className="w-full h-full">
                         <div className="w-full flex">
                             <div className="w-1/2  p-4">
                                 <input type="file" name="image_save" accept="img/jpg, img/png" onChange={handleInputChange}></input>
                             </div>
-                            <div className="flex flex-col">
+                            <div className="flex w-1/2 flex-col">
                                 <div className="mb-4 flex flex-row">
                                     <div className="w-1/2">
-                                        <button class="bg-blue-400 text-white">Googleカレンダーから入力</button>
+                                        <button type="button" class="bg-blue-400 text-white">Googleカレンダーから入力</button>
                                     </div>
                                     <div className="w-1/2 self-center">
-                                        <p>何個目の経費か</p>
+                                        <p>1</p>
                                     </div>
                                 </div>
                                 <div className="mx-auto w-full p-3 ">
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
-                                        <input name="date_of_use" type="date" className="inputcss" placeholder="Select date" onChange={handleInputChange}/>
+                                        <input name="date_of_use" type="date" className="inputcss" onChange={handleInputChange} required/>
                                     </div>
                                     <div className="my-2">
                                         <label for="example11" className="text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
                                         <div className="relative">
                                             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2.5 text-gray-500">\</div>
-                                            <div className="absolute inset-y-0 right-0 flex items-center text-gray-500">
-                                                <label for="currency" className="sr-only">Currency</label>
-                                            </div>
-                                            <input type="number" name="amount" className="inputcss pl-8" placeholder="0" onChange={handleInputChange}/>
+                                            <input type="number" name="amount" className="inputcss pl-8" placeholder="0" onChange={handleInputChange} required/>
                                         </div>
                                     </div>
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
                                         <div className="mt-1">
-                                            <input type="text" name="spend_to" onChange={handleInputChange}  className="inputcss" />
+                                            <input type="text" name="spend_to" onChange={handleInputChange}  className="inputcss" required/>
                                         </div>
                                     </div>
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
                                         <div className="mt-1">
-                                            <input type="text" name="keihi_class" onChange={handleInputChange} className="inputcss"/>
+                                            <input type="text" name="keihi_class" onChange={handleInputChange} className="inputcss" required/>
                                         </div>
                                     </div>
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
                                         <div className="mt-1">
-                                            <input type="text" name="purpose" onChange={handleInputChange}  className="inputcss"/>
+                                            <input type="text" name="purpose" onChange={handleInputChange}  className="inputcss" required/>
                                         </div>
                                     </div>
                                     <div className="my-2">
@@ -208,18 +203,14 @@ const SpendRequestForm = () => {
                     const items = [];
                     for (let i = 0; i < count; i++) {
                         items.push(
-                            <div className="overflow-hidden flex">
-                                {/* 画像のアップロードおよびプレビュー機能を実装したい */}
+                            <div className="flex">
                                 <div className="w-1/2 min-w-fit p-4">
                                     <input type="file" name="example" accept="img/jpg, img/png"></input>
                                 </div>
-                                {/* ------------------------- */}
-                                <div className="w-1/2 p-4 overflow-y-auto">
-                                    
-                                        <div className="w-1/2 self-center">
-                                            <p>何個目の経費か</p>
-                                        </div>
-                                    
+                                <div className="w-1/2 p-4">
+                                    <div className="w-1/2 self-center">
+                                        <p>{count + 1}</p>
+                                    </div>
                                     <div className="mx-auto w-full h-full p-3 ">
                                         <div className="my-2">
                                             <label className="text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
@@ -265,27 +256,30 @@ const SpendRequestForm = () => {
                         )
                     }
                     return (
-                            <div>{items}</div>
+                            <div>{items}
+                                <div className="h-12 flex-none bottom-0 flex items-center justify-end bg-gray-100 px-5">
+                                    <div className="flex gap-4 px-2">
+                                        <button type="button" onClick={subCounter} className="bg-red-500 text-white px-4 py-2">削除</button>
+                                        <button type="button" onClick={addCounter} className="bg-green-500 text-white px-4 py-2">追加</button>
+                                    </div>
+                                </div>
+                            </div>
                     );
                 })()}
                 </div>
                      
-                </form>
+                
             </div>
-            <div className="h-12 flex-none bottom-0 flex items-center justify-end bg-gray-100 px-5">
-                    <div className="flex gap-4 px-2">
-                    <button onClick={subCounter} className="bg-red-500 text-white px-4 py-2">削除</button>
-                        <button onClick={addCounter} className="bg-green-500 text-white px-4 py-2">追加</button>
-                    </div>
-                </div>
+            
             {/* 入力フォームフッター */}
-            <div className="h-12 flex-none bottom-0 flex items-center justify-end bg-gray-100 px-5">
+            <div className="h-12 flex-none flex items-center justify-end bg-gray-100 px-5">
                 <div className="flex gap-4 px-2">
                     <button className="bg-red-500 text-white px-4 py-2">キャンセル</button>
-                    <button type="submit" onClick={handleSubmit} className="bg-green-500 text-white px-4 py-2">新規作成</button>
+                    <button type="submit"  className="bg-green-500 text-white px-4 py-2">申請</button>
                 </div>
             </div>
         </div>
+        </form>
     )
 }
 

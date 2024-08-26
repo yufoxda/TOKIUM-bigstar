@@ -22,16 +22,15 @@ export const ContentsPage = () => {
   else {
     // userの時の
     return (
-      
       <div className="w-screen h-screen flex flex-col">
-        <HeaderComponent />
-        <div className="flex flex-grow">
-          <SideBar />
-          <div className="flex-grow">
-            <SpendRequestForm />
-          </div>
+      <HeaderComponent />
+      <div className="flex-1 flex min-h-0">
+        <SideBar className="h-full" />
+        <div className="flex-1 h-full overflow-auto">
+          <SpendRequestForm className="h-full" />
         </div>
       </div>
+    </div>
     );
   }
 };
