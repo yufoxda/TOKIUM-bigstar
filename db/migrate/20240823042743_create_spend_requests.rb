@@ -7,7 +7,7 @@ class CreateSpendRequests < ActiveRecord::Migration[7.0]
       t.integer :amount, null: false # spend  money
       t.text :spend_to, null: false # 支払先
       t.string :keihi_class, null: false # 経費科目
-      t.text :purpose, null: false # purpose
+      t.text :purpose, null:false
       t.integer :invoice_number # 適格請求書番号
       t.integer :contact_number # 連絡請求番号
       t.text :memo # memo
