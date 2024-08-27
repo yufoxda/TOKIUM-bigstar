@@ -1,4 +1,19 @@
+import { useState } from 'react';
+import useCalendar from '../hooks/useCalendar';
+import formatDateToJapanese from '../utils/formatDate';
+
 const SpendRequestForm = () => {
+    // カレンダーの設定
+    const {events, loading, error} = useCalendar();
+    const [isOverlay, setIsOverlay] = useState(false);
+
+    const showOverlay = () => {
+        setIsOverlay(true);
+    }
+    const hideOverlay = () => {
+        setIsOverlay(false);
+    }
+
     return (
         <div className="w-full h-full flex flex-col">
             {/* 入力フォームヘッダー */}
@@ -14,8 +29,21 @@ const SpendRequestForm = () => {
                 {/* ------------------------- */}
                 <div className="w-1/2 p-4 overflow-y-auto">
                     <div className="mb-4 flex flex-row">
-                        <div className="w-1/2">
-                            <button class="bg-blue-400 text-white">Googleカレンダーから入力</button>
+                        <div>
+                            {isOverlay && loading && <p>Loading...</p>}
+                            {isOverlay && error && <p>Error: {error.message}</p>}
+                            {isOverlay && (
+                                <div>
+                                    <button  onClick={hideOverlay} className="bg-red-500 text-white">閉じる</button>
+                                    <p>該当するイベントを押して直接入力ができます(未実装)</p>
+                                    {events.map((event) => (
+                                        <button key={event.id} className="bg-blue-400 text-white">{formatDateToJapanese(event.start)}, {event.summary}, {event.location}</button>
+                                    ))}
+                                </div>
+                            )}
+                            {!isOverlay && <div className="w-1/2">
+                                <button class="bg-blue-400 text-white" onClick={showOverlay}>Googleカレンダーから入力</button>
+                            </div>}
                         </div>
                         <div className="w-1/2 self-center">
                             <p>何個目の経費か</p>

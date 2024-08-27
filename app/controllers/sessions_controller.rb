@@ -12,7 +12,8 @@ class SessionsController < ApplicationController
     expires_at = Time.at(user_info['credentials']['expires_at'])
 
     Rails.logger.info("google_user_id: #{google_user_id}")
-    token = generate_token_with_google_user_id(google_user_id, provider)
+    # token = generate_token_with_google_user_id(google_user_id, provider)
+    token = JwtService.encode({ google_user_id: google_user_id, provider: provider })
     Rails.logger.info("token: #{token}")
 
     user_authentication = UserAuthentication.find_by(uid: google_user_id, provider: provider)
@@ -45,13 +46,12 @@ class SessionsController < ApplicationController
 
     redirect_to "#{frontend_url}/contents?token=#{token}", allow_other_host: true
   end
+  # private
 
-  private
-
-  def generate_token_with_google_user_id(google_user_id, provider)
-    exp = Time.now.to_i + 24 * 3600
-    payload = { google_user_id: google_user_id, provider: provider, exp: exp }
-    hmac_secret = ENV['JWT_SECRET_KEY']
-    JWT.encode(payload, hmac_secret, 'HS256')
-  end
+  # def generate_token_with_google_user_id(google_user_id, provider)
+  #   exp = Time.now.to_i + 15*60
+  #   payload = { google_user_id: google_user_id, provider: provider, exp: exp }
+  #   hmac_secret = ENV['JWT_SECRET_KEY']
+  #   JWT.encode(payload, hmac_secret, 'HS256')
+  # end
 end
