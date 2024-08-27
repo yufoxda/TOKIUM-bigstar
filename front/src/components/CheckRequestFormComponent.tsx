@@ -22,7 +22,7 @@ const SpendRequestForm = () => {
   };
   const [formData, setFormData] = useState({
     user_id: currentUser.id,
-    status: "wait",
+    status: "pending",
     spend_to: "",
     purpose: "",
     spend_request_item: {
@@ -516,7 +516,6 @@ const SpendRequestForm = () => {
             </button>
             <button
               onClick={() => handleChangeStatus("accept")}
-              type="submit"
               className="bg-green-500 text-white px-4 py-2"
             >
               承認
