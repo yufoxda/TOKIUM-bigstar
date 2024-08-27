@@ -8,6 +8,7 @@ namespace :api do
   namespace :v1 do
       # カレントユーザーの呼び出し
     post 'users/current', to: 'users#current'
+    patch 'users/change_role/:id', to: 'users#change_role'
     get 'csrf_token', to: 'csrf#token'
     get 'keihi/show/:id', to: 'keihi#show'
     post 'keihi/create', to: 'keihi#create'

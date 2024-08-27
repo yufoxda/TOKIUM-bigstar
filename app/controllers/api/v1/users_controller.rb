@@ -16,4 +16,23 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-end
+  # カレントユーザのroleを変更
+  def change_role
+    Rails.logger.debug("Entering change_role method")
+    @current_user = User.find_by(id: params[:id])
+    Rails.logger.debug("User found: #{@current_user.inspect}")
+    
+    if @current_user
+      if @current_user.role == 'auth'
+        @current_user.update(role: 'user')
+      else
+        @current_user.update(role: 'auth')
+      end
+      Rails.logger.debug("User role updated to: #{@current_user.role}")
+      render json: { message: 'Role updated successfully', role: @current_user.role }, status: :ok
+    else
+      Rails.logger.debug("User not found")
+      render json: { error: 'User not found' }, status: :not_found
+    end
+  end
+end  
