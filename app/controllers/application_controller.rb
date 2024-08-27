@@ -11,25 +11,33 @@ class ApplicationController < ActionController::API
   end
 
   protected
-
   def authenticate_request
     header = request.headers['Authorization']
-    header = header.split(' ').last if header
-    begin
-      decoded = JwtService.decode(header)
+    if header.present?
+      token = header.split(' ').last
+      @token = token
+      Rails.logger.info "Received token: #{token}"
 
-      user_auth = UserAuthentication.find_by(uid: decoded["google_user_id"], provider: decoded["provider"])
-      @current_user = user_auth.user if user_auth
+      begin
+        decoded = JwtService.decode(token)
+        Rails.logger.info "Decoded JWT: #{decoded.inspect}"
 
-      Rails.logger.info(user_auth)
+        user_auth = UserAuthentication.find_by(uid: decoded["google_user_id"], provider: decoded["provider"])
+        @current_user = user_auth.user if user_auth
 
-      Rails.logger.info(@current_user)
-      unless @current_user
-        raise ActiveRecord::RecordNotFound, 'User not found'
+        Rails.logger.info "User authentication record: #{user_auth.inspect}"
+        Rails.logger.info "Current user: #{@current_user.inspect}"
+
+        unless @current_user
+          raise ActiveRecord::RecordNotFound, 'User not found'
+        end
+      rescue ActiveRecord::RecordNotFound, JWT::DecodeError => e
+        Rails.logger.error "Authentication error: #{e.message}"
+        render json: { errors: e.message }, status: :unauthorized
       end
-    rescue ActiveRecord::RecordNotFound, JWT::DecodeError => e
-      Rails.logger.error "認証エラー: #{e.message}"
-      render json: { errors: e.message }, status: :unauthorized
+    else
+      Rails.logger.error "Authorization header missing"
+      render json: { errors: 'Authorization header missing' }, status: :unauthorized
     end
   end
 end
