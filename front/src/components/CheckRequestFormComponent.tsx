@@ -3,12 +3,16 @@ import useCalendar from "../hooks/useCalendar";
 import formatDateToJapanese from "../utils/formatDate";
 
 import { useAuth } from "../hooks/useAuth";
+import { useCsrf } from "../hooks/useCsrf";
+
+const API_URL = "http://localhost:3000/api/v1";
 
 const SpendRequestForm = () => {
   const [count, setCount] = useState(0);
   const { currentUser, token, logout, setCurrentUser } = useAuth();
   const { events, loading, error } = useCalendar();
   const [isOverlay, setIsOverlay] = useState(false);
+  const { csrfToken } = useCsrf();
 
   const showOverlay = () => {
     setIsOverlay(true);
@@ -149,6 +153,23 @@ const SpendRequestForm = () => {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  //    patch 'keihi/change_status', to: 'keihi#change_status'
+  const handleChangeStatus = (status_to: string) => {
+    // 経費データの状態をstatus_toに変更する
+    console.log("handleChangeStatusは呼び出されている！");
+    const keihi_id = "1d876305-96c5-4731-8edd-3f92c4da6816";
+    fetch(`${API_URL}/keihi/change_status?id=${keihi_id}&status=${status_to}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "X-CSRF-Token": csrfToken,
+        "Content-Type": "application/json",
+      },
+    }).catch((error) => {
+      console.error("Error fetching current user", error);
+    });
   };
 
   const addCounter = () => {
@@ -487,8 +508,17 @@ const SpendRequestForm = () => {
         {/* 入力フォームフッター */}
         <div className="h-12 flex-none flex items-center justify-end bg-gray-100 px-5">
           <div className="flex gap-4 px-2">
-            <button className="bg-red-500 text-white px-4 py-2">却下</button>
-            <button type="submit" className="bg-green-500 text-white px-4 py-2">
+            <button
+              onClick={() => handleChangeStatus("reject")}
+              className="bg-red-500 text-white px-4 py-2"
+            >
+              却下
+            </button>
+            <button
+              onClick={() => handleChangeStatus("accept")}
+              type="submit"
+              className="bg-green-500 text-white px-4 py-2"
+            >
               承認
             </button>
           </div>
