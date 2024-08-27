@@ -62,6 +62,8 @@ class Api::V1::KeihiController < ApplicationController
       )
       # 関連するSpendRequestItemsを作成
       spend_request_params[:spend_request_item].each do |item|
+        Rails.logger.info("items:")
+        Rails.logger.info(item)
         spend_request.spend_request_item.create!(
           date_of_use: item[:date_of_use],
           amount: item[:amount],
