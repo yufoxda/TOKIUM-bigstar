@@ -22,7 +22,7 @@ const HeaderComponent = () =>{
                     </svg>
                 </div>
                 <div>
-                    tokium taro
+                    {currentUser.name}
                 </div>
                 <button onClick={handleLogout} className="mx-3">Logout</button>
             </div>

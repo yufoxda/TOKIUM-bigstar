@@ -12,6 +12,15 @@ interface AuthContextType {
   setCurrentUser: (user: any) => void;
 }
 
+interface CurrentUser {
+  created_at: string,
+  id: string,
+  email: string,
+  profile: string,
+  role: string,
+  updated_at: string
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
@@ -28,7 +37,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string>("");
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<CurrentUser>(null);
   const { csrfToken } = useCsrf();
 
   useEffect(() => {
@@ -37,7 +46,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
-      localStorage.setItem('authToken', tokenFromUrl);
+      localStorage.setItem('authToken', tokenFromUrl); 
     } else {
       const storedToken = localStorage.getItem('authToken');
       if (storedToken) {
