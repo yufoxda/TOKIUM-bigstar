@@ -129,8 +129,27 @@ class Api::V1::KeihiController < ApplicationController
     render json: { error: 'Record not found' }, status: :not_found
   end
 
-  private
 
+  def change_status
+    status = params[:status]
+    keihi_id = params[:id]
+    @keihi = SpendRequest.find_by(id: keihi_id)
+    if @keihi
+      if @keihi.update(status: status)
+        render json: { message: 'Status updated successfully', status: @keihi.status }, status: :ok
+      else
+        render json: { error: 'Failed to update status', details: @keihi.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      render json: { error: 'Keihi not found' }, status: :not_found
+    end
+  rescue => e
+    render json: { error: e.message }, status: :internal_server_error
+  end
+  
+
+  private
+  
   def spend_request_params
     params.require(:spend_request).permit(:user_id, :status, :date_of_use, :amount,:keihi_class,  :invoice_number, :contact_number, :memo, :image_save)
   end

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import HeaderComponent from "../components/HeaderComponent";
 import SideBar from "../components/SideBarComponent";
 import SpendRequestForm from "../components/SpendRequestFormComponent";
+import CheckRequestForm from "../components/CheckRequestFormComponent";
 import { useAuth } from "../hooks/useAuth";
 import { useFetchKeihis } from "../hooks/useFetchKeihis";
 import axios from "axios";
@@ -23,7 +24,16 @@ export const ContentsPage = () => {
   useEffect(() => {
     console.log(currentUser);
     if (token) {
-      fetch(`${API_URL}/keihi/get_by_user?user_id=${currentUser.id}`, {
+      let end_path: string = "";
+
+      if (currentUser.role == "auth") {
+        end_path = "index";
+      } else {
+        end_path = `get_by_user?user_id=${currentUser.id}`;
+      }
+
+      console.log(end_path);
+      fetch(`${API_URL}/keihi/${end_path}`, {
         method: "GET",
       })
         .then((response) => response.json()) // 必要に応じてJSONをパース
@@ -42,8 +52,19 @@ export const ContentsPage = () => {
     navigate("/");
   } else if (currentUser.role == "auth") {
     // authの時のコンポーネント
-    console.log(currentUser.role);
-    return <div>権限がauthの時</div>;
+    return (
+      <div className="w-screen h-screen flex flex-col">
+        <p>authです</p>
+        <HeaderComponent role={currentUser.role} />
+        <div className="flex flex-grow">
+          {/* サイドバーにkeihiのpropsを渡す */}
+          <SideBar keihis={keihis} />
+          <div className="flex-grow">
+            <CheckRequestForm />
+          </div>
+        </div>
+      </div>
+    );
   } else {
     // userの時の
     return (
