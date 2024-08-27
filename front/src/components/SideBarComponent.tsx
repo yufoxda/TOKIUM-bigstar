@@ -21,11 +21,6 @@ interface SpendRequestItem {
     spendRequestItems: SpendRequestItem[]; // spend_request_item（配列型でSpendRequestItemオブジェクトのリスト）
   }
 
-
-  
-
-
-
 /* モックデータ */
 const itemList : SpendRequest[]=[
     {   
@@ -370,18 +365,32 @@ function formatCreatedAt(created_at: string):string{
 }
 
 
-const SideBar = ({keihis}) =>{
+const SideBar = ({keihis,setIs_create,setdetail_id}) =>{
+    
+    const to_detail = (id) => {
+        setIs_create(false); // 詳細表示に変更
+        setdetail_id(id);
+        console.log(id);
+    };
+      
+    const to_create = () => {
+    setIs_create(true); // 新規作成に変更
+    setdetail_id(null);
+    };
+
     return (
         <div className="w-80  px-3 h-full bg-gray-200 flex flex-col">
             <div className="h-fit my-5 w-full flex justify-center">
-                <button className="bg-yellow-300  w-64">新規作成</button>
+                <button type="button" onClick={to_create} className="bg-yellow-300  w-64">新規作成</button>
             </div>
             <div className="h-full overflow-hidden">
             {(() => {
                 const items = [];
+                // console.log(keihis[0].id)
                 // items.push(<button className="bg-yellow-300">新規作成</button>)
                 for (let i = 0; i < keihis.length; i++) {
-                    items.push(<button className="h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent">
+                    items.push(
+                    <button type="button" onClick={() => to_detail(keihis[i].id)} className="h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent">
                         <div className="w-full flex flex-col">
                             <div className="w-full flex flex-row">
                                 <div className="w-1/3">
@@ -397,6 +406,7 @@ const SideBar = ({keihis}) =>{
                                 </div>
                                 <div className="w-full right-0">
                                     {calculateTotalAmount(keihis[i].spend_request_item)}円
+                                   
                                 </div>
                             </div>
                         </div>

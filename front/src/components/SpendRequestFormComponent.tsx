@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useCalendar from '../hooks/useCalendar';
 import formatDateToJapanese from '../utils/formatDate';
+import { useGetSpendItem } from "../hooks/useGetSpendItem";
 
 import { useAuth } from '../hooks/useAuth';
 
@@ -22,12 +23,14 @@ interface SpendRequest {
     spend_request_item: SpendRequestItem[]
 }
 
-const SpendRequestForm = () => {
-    const [count, setCount] = useState(2);
+const SpendRequestForm = ({ is_create, detail_id }: { is_create: boolean; detail_id: string }) => {
+    const [count, setCount] = useState(1);
     const { currentUser, token, logout, setCurrentUser } = useAuth();
     const {events, loading, error} = useCalendar();
     const [isOverlay, setIsOverlay] = useState(false);
-
+    console.log(detail_id);
+    const { spend, loading_spend, error_spend } = useGetSpendItem(detail_id);
+    console.log(spend)
     const showOverlay = () => {
         setIsOverlay(true);
     }
@@ -87,12 +90,9 @@ const SpendRequestForm = () => {
                 [itemId]: spend_request_items
             }
         }));
-
-        console.log(formData);
-        console.log(spend_request_items);
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit_create = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         const myformDataToSend:SpendRequest = {
@@ -145,21 +145,74 @@ const SpendRequestForm = () => {
         }
     };
 
+    const handleSubmit_update = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+        const myformDataToSend:SpendRequest = {
+            user_id: formData.user_id,
+            status: formData.status,
+            spend_to: formData.spend_to,
+            purpose: formData.purpose,
+            spend_request_item :[]
+        };
 
+        
+        for(let i=1;i<count;i++)
+        {
+            const item = formData.spend_request_item[i] || {};
+            myformDataToSend.spend_request_item.push({
+                date_of_use: item.date_of_use || '',
+                amount: item.amount || 0,
+                keihi_class: item.keihi_class || '',
+                invoice_number: item.invoice_number || 0,
+                contact_number: item.contact_number || 0,
+                memo: item.memo || '',
+                image_save: item.image_save || null
+            });
+        }
+
+
+        const requestBody = {
+            spend_request: myformDataToSend
+        }
+
+        console.log(myformDataToSend)
+        try {
+            const response = await fetch('http://localhost:3000/api/v1/keihi/update/', {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    spend_request: myformDataToSend
+                })
+            });
+
+            if (response.ok) {
+                console.log('Request succeeded');
+            } else {
+                console.log('Request failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    
     const addCounter = () => {
         setCount(prevCount => prevCount + 1);
     };
-
     const subCounter = () => {
         setCount(prevCount => prevCount > 2 ? prevCount - 1 : 2);
     };
+   
     
     return (
-        <form action="" method="post" onSubmit={handleSubmit} className="w-full h-full">
+        <form action="" method="post" onSubmit={is_create ? handleSubmit_create : handleSubmit_update} className="w-full h-full">
         <div className="w-full h-full flex flex-col">
             {/* 入力フォームヘッダー */}
             <div className="h-fit flex-none text-3xl p-2">
-                アクションによって変更
+            {is_create ? "新規作成" : "編集"}
+            
             </div>
             {/* 入力フォームボディ */}
             <div className="w-full h-full flex-grow flex overflow-auto">
@@ -178,7 +231,7 @@ const SpendRequestForm = () => {
                                         {isOverlay && error && <p>Error: {error.message}</p>}
                                         {isOverlay && (
                                             <div>
-                                                <button  onClick={hideOverlay} className="bg-red-500 text-white">閉じる</button>
+                                                <button  type="button" onClick={hideOverlay} className="bg-red-500 text-white">閉じる</button>
                                                 <p>該当するイベントを押して直接入力ができます(未実装)</p>
                                                 {events.map((event) => (
                                                     <button key={event.id} className="bg-blue-400 text-white">{formatDateToJapanese(event.start)}, {event.summary}, {event.location}</button>
@@ -186,7 +239,7 @@ const SpendRequestForm = () => {
                                             </div>
                                         )}
                                         {!isOverlay && <div className="w-1/2">
-                                            <button class="bg-blue-400 text-white" onClick={showOverlay}>Googleカレンダーから入力</button>
+                                            <button type="button" class="bg-blue-400 text-white" onClick={showOverlay}>Googleカレンダーから入力</button>
                                         </div>}
                                     </div>
                                     </div>
@@ -197,49 +250,49 @@ const SpendRequestForm = () => {
                                 <div className="mx-auto w-full p-3 ">
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
-                                        <input name="date_of_use" type="date" className="inputcss" onChange={handleInputChange} data-item-id={1} required/>
+                                        <input name="date_of_use" type="date" value={spend?spend.spend_request_item[0].date_of_use:""} className="inputcss" onChange={handleInputChange} data-item-id={1} required/>
                                     </div>
                                     <div className="my-2">
                                         <label for="example11" className="text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
                                         <div className="relative">
                                             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2.5 text-gray-500">\</div>
-                                            <input type="number" name="amount" className="inputcss pl-8" placeholder="0" onChange={handleInputChange} data-item-id={1} required/>
+                                            <input type="number" name="amount" className="inputcss pl-8" placeholder="0" value={spend?spend.spend_request_item[0].amount:""} onChange={handleInputChange} data-item-id={1} required/>
                                         </div>
                                     </div>
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
                                         <div className="mt-1">
-                                            <input type="text" name="spend_to" onChange={handleInputChange}  className="inputcss" data-item-id={1} required/>
+                                            <input type="text" name="spend_to" onChange={handleInputChange} value={spend?spend.spend_to:""}  className="inputcss" data-item-id={1} required/>
                                         </div>
                                     </div>
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
                                         <div className="mt-1">
-                                            <input type="text" name="keihi_class" onChange={handleInputChange} className="inputcss" data-item-id={1} required/>
+                                            <input type="text" name="keihi_class" onChange={handleInputChange} value={spend?spend.spend_request_item[0].keihi_class:""} className="inputcss" data-item-id={1} required/>
                                         </div>
                                     </div>
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
                                         <div className="mt-1">
-                                            <input type="text" name="purpose" onChange={handleInputChange}  className="inputcss" data-item-id={1} required/>
+                                            <input type="text" name="purpose" onChange={handleInputChange}  value={spend?spend.purpose:""} className="inputcss" data-item-id={1} required/>
                                         </div>
                                     </div>
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">的確請求書番号</label>
                                         <div className="mt-1">
-                                            <input type="number" name="invoice_number" onChange={handleInputChange} data-item-id={1} className="inputcss"/>
+                                            <input type="number" name="invoice_number" onChange={handleInputChange} value={spend?spend.spend_request_item[0].invoice_number:""} data-item-id={1} className="inputcss"/>
                                         </div>
                                     </div>
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">連絡請求番号</label>
                                         <div className="mt-1">
-                                            <input type="number" name="contact_number" onChange={handleInputChange} data-item-id={1}  className="inputcss"/>
+                                            <input type="number" name="contact_number" onChange={handleInputChange} value={spend?spend.spend_request_item[0].contact_number:""} data-item-id={1}  className="inputcss"/>
                                         </div>
                                     </div>
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">メモ</label>
                                         <div className="mt-1">
-                                            <textarea id="story" name="memo" rows="8" onChange={handleInputChange} data-item-id={1} className="inputcss"></textarea>
+                                            <textarea id="story" name="memo" rows="8" onChange={handleInputChange} value={spend?spend.spend_request_item[0].memo:""} data-item-id={1} className="inputcss"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -248,7 +301,9 @@ const SpendRequestForm = () => {
 
                 {(() => {
                     const items = [];
-                    for (let i = 2; i < count; i++) {
+                    console.log(spend)
+                    for (let i = 2; i <= (spend ? spend.spend_request_item.length : count); i++) {
+                        console.log(i)
                         items.push(
                             <div className="flex">
                                 <div className="w-1/2 min-w-fit p-4">
@@ -261,37 +316,37 @@ const SpendRequestForm = () => {
                                     <div className="mx-auto w-full h-full p-3 ">
                                         <div className="my-2">
                                             <label className="text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
-                                            <input name="date_of_use" type="date" className="inputcss" onChange={handleInputChange} data-item-id={i} required/>
+                                            <input name="date_of_use" type="date" className="inputcss"  value={spend?spend.spend_request_item[i-1].date_of_use:""} onChange={handleInputChange} data-item-id={i} required/>
                                         </div>
                                         <div className="my-2">
                                             <label for="example11" className="text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
                                             <div className="relative">
                                                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2.5 text-gray-500">\</div>
-                                                <input type="number" name="amount" className="inputcss pl-8" placeholder="0" onChange={handleInputChange} data-item-id={i} required/>
+                                                <input type="number" name="amount" className="inputcss pl-8" placeholder="0" value={spend?spend.spend_request_item[1].amount:""} onChange={handleInputChange} data-item-id={i} required/>
                                             </div>
                                         </div>
                                         <div className="my-2">
                                             <label className="text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
                                             <div className="mt-1">
-                                                <input type="text" name="keihi_class" onChange={handleInputChange} className="inputcss" data-item-id={i} required/>
+                                                <input type="text" name="keihi_class" onChange={handleInputChange} value={spend?spend.spend_request_item[i-1].keihi_class:""} className="inputcss" data-item-id={i} required/>
                                             </div>
                                         </div>
                                         <div className="my-2">
                                             <label className="text-xl block text-gray-800">的確請求書番号</label>
                                             <div className="mt-1">
-                                                <input type="number" name="invoice_number" onChange={handleInputChange} data-item-id={i} className="inputcss"/>
+                                                <input type="number" name="invoice_number" onChange={handleInputChange} value={spend?spend.spend_request_item[i-1].invoice_number:""}  data-item-id={i} className="inputcss"/>
                                             </div>
                                         </div>
                                         <div className="my-2">
                                             <label className="text-xl block text-gray-800">連絡請求番号</label>
                                             <div className="mt-1">
-                                                <input type="number" name="contact_number" onChange={handleInputChange} data-item-id={i}  className="inputcss"/>
+                                                <input type="number" name="contact_number" onChange={handleInputChange} value={spend?spend.spend_request_item[i-1].contact_number:""} data-item-id={i}  className="inputcss"/>
                                             </div>
                                         </div>
                                         <div className="my-2">
                                             <label className="text-xl block text-gray-800">メモ</label>
                                             <div className="mt-1">
-                                                <textarea id="story" name="memo" rows="8" onChange={handleInputChange} data-item-id={i} className="inputcss"></textarea>
+                                                <textarea id="story" name="memo" rows="8" onChange={handleInputChange} value={spend?spend.spend_request_item[i-1].memo:""} data-item-id={i} className="inputcss"></textarea>
                                             </div>
                                         </div>
                                     </div>
