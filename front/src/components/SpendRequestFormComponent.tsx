@@ -1,9 +1,21 @@
 import { useState } from 'react';
+import useCalendar from '../hooks/useCalendar';
+import formatDateToJapanese from '../utils/formatDate';
+
 import { useAuth } from '../hooks/useAuth';
 
 const SpendRequestForm = () => {
     const [count, setCount] = useState(0);
     const { currentUser, token, logout, setCurrentUser } = useAuth();
+        const {events, loading, error} = useCalendar();
+    const [isOverlay, setIsOverlay] = useState(false);
+
+    const showOverlay = () => {
+        setIsOverlay(true);
+    }
+    const hideOverlay = () => {
+        setIsOverlay(false);
+    }
     const [formData, setFormData] = useState({
         user_id: currentUser.id,
         status: 'wait',
@@ -141,7 +153,22 @@ const SpendRequestForm = () => {
                             <div className="flex w-1/2 flex-col">
                                 <div className="mb-4 flex flex-row">
                                     <div className="w-1/2">
-                                        <button type="button" class="bg-blue-400 text-white">Googleカレンダーから入力</button>
+                                    <div>
+                                        {isOverlay && loading && <p>Loading...</p>}
+                                        {isOverlay && error && <p>Error: {error.message}</p>}
+                                        {isOverlay && (
+                                            <div>
+                                                <button  onClick={hideOverlay} className="bg-red-500 text-white">閉じる</button>
+                                                <p>該当するイベントを押して直接入力ができます(未実装)</p>
+                                                {events.map((event) => (
+                                                    <button key={event.id} className="bg-blue-400 text-white">{formatDateToJapanese(event.start)}, {event.summary}, {event.location}</button>
+                                                ))}
+                                            </div>
+                                        )}
+                                        {!isOverlay && <div className="w-1/2">
+                                            <button class="bg-blue-400 text-white" onClick={showOverlay}>Googleカレンダーから入力</button>
+                                        </div>}
+                                    </div>
                                     </div>
                                     <div className="w-1/2 self-center">
                                         <p>1</p>
