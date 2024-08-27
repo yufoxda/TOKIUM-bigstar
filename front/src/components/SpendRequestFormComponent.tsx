@@ -201,13 +201,13 @@ const SpendRequestForm = () => {
                                         </div>
                                     </div>
                                     <div className="my-2">
-                                        <label className="text-xl block text-gray-800">請求書番号</label>
+                                        <label className="text-xl block text-gray-800">適格請求書番号</label>
                                         <div className="mt-1">
                                             <input type="number" name="invoice_number" onChange={handleInputChange} className="inputcss" placeholder="0" />
                                         </div>
                                     </div>
                                     <div className="my-2">
-                                        <label className="text-xl block text-gray-800">連絡先</label>
+                                        <label className="text-xl block text-gray-800">連絡請求番号</label>
                                         <div className="mt-1">
                                             <input type="number" name="contact_number" onChange={handleInputChange} className="inputcss" placeholder="0" />
                                         </div>
@@ -215,7 +215,7 @@ const SpendRequestForm = () => {
                                     <div className="my-2">
                                         <label className="text-xl block text-gray-800">メモ</label>
                                         <div className="mt-1">
-                                            <textarea name="memo" rows="4" onChange={handleInputChange} className="inputcss"></textarea>
+                                            <textarea id="story" name="memo" rows="8" onChange={handleInputChange} className="inputcss"></textarea>
                                         </div>
                                     </div>
                                 </div>
