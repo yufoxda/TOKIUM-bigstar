@@ -1,0 +1,59 @@
+[
+    {   
+        "userId": "A0001",
+        "status": "申請中",
+        "spendTo": "電車",
+        "createdAt": "2024-07-02",
+        "updatedAt": "2024-07-02",
+        "spendRequestItems": [
+            {
+                "amount": 1000,
+                "usageDate": "2024-08-30",
+                "expenseCategory": "行き"
+            },
+            {
+                "amount": 1000,
+                "usageDate": "2024-08-30",
+                "expenseCategory": "帰り"
+            }
+        ]
+    },
+    {   
+        "userId": "A0001",
+        "status": "承認待ち",
+        "spendTo": "札幌行きタクシー",
+        "createdAt": "2024-07-02",
+        "updatedAt": "2024-07-02",
+        "spendRequestItems": [
+            {
+                "amount": 2000,
+                "usageDate": "2024-08-30",
+                "expenseCategory": "行き"
+            },
+            {
+                "amount": 1000,
+                "usageDate": "2024-08-30",
+                "expenseCategory": "帰り"
+            }
+        ]
+    },
+    {   
+        "userId": "A0001",
+        "status": "承認待ち",
+        "spendTo": "ハワイ行き飛行機",
+        "createdAt": "2024-07-02",
+        "updatedAt": "2024-07-02",
+        "spendRequestItems": [
+            {
+                "amount": 1000,
+                "usageDate": "2024-08-30",
+                "expenseCategory": "行き"
+            },
+            {
+                "amount": 1000,
+                "usageDate": "2024-08-30",
+                "expenseCategory": "帰り"
+            }
+        ]
+    }
+]
