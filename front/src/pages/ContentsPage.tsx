@@ -4,6 +4,7 @@ import HeaderComponent from "../components/HeaderComponent";
 import SideBar from "../components/SideBarComponent";
 import SpendRequestForm from "../components/SpendRequestFormComponent";
 import { useAuth } from "../hooks/useAuth";
+import { useFetchKeihis } from "../hooks/useFetchKeihis";
 import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/v1";
@@ -13,6 +14,10 @@ export const ContentsPage = () => {
   const navigate = useNavigate();
 
   const [keihis, setKeihis] = useState<any[]>([]);
+  const [is_create, setIs_create] = useState<boolean>(true);
+  const [detail_id, setdetail_id] = useState<string>(null);
+  
+
 
   /* ------------------- */
   useEffect(() => {
@@ -31,7 +36,6 @@ export const ContentsPage = () => {
         });
     }
   }, []);
-
   /* ------------------- */
 
   if (!currentUser) {
@@ -43,16 +47,16 @@ export const ContentsPage = () => {
   } else {
     // userの時の
     return (
+
       <div className="w-screen h-screen flex flex-col">
-        <HeaderComponent />
-        <div className="flex flex-grow">
-          {/* サイドバーにkeihiのpropsを渡す */}
-          <SideBar keihis={keihis} />
-          <div className="flex-grow">
-            <SpendRequestForm />
-          </div>
+      <HeaderComponent />
+      <div className="flex-1 flex min-h-0">
+        <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/>
+        <div className="flex-1 h-full overflow-auto">
+          <SpendRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/>
         </div>
       </div>
+    </div>
     );
   }
 };
