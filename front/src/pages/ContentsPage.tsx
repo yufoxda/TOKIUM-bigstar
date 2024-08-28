@@ -22,7 +22,6 @@ export const ContentsPage = () => {
 
   /* ------------------- */
   useEffect(() => {
-    console.log(currentUser);
     if (token) {
       let end_path: string = "";
 
@@ -32,7 +31,6 @@ export const ContentsPage = () => {
         end_path = `get_by_user?user_id=${currentUser.id}`;
       }
 
-      console.log(end_path);
       fetch(`${API_URL}/keihi/${end_path}`, {
         method: "GET",
       })
