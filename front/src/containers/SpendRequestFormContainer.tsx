@@ -65,10 +65,10 @@ const SpendRequestFormContainer = () => {
 
 
     return (
-        <div className="flex-1 flex min-h-0 overflow-auto h-screen">
-            <SideBar className="flex h-full" keihis={spendRequests} setIs_create={setIsCreate} setdetail_id={setDetailId} onButtonClick={handleSidebarButton} />
-            <div className="flex-grow p-4 h-screen">
-                {isCreate ? (<CreateSpendRequestFormComponent />): <UpdateSpendRequestFormComponent spend_requests={spendRequests.find((request) => request.id === detailId)} spendRequestId={detailId} />}
+        <div className="flex-1 flex min-h-0">
+            <SideBar className="h-full" keihis={spendRequests} setIs_create={setIsCreate} setdetail_id={setDetailId} onButtonClick={handleSidebarButton} />
+            <div className="flex-1 h-full overflow-auto">
+                {isCreate ? (<CreateSpendRequestFormComponent className="h-full"/>): <UpdateSpendRequestFormComponent className="h-full" spend_requests={spendRequests.find((request) => request.id === detailId)} spendRequestId={detailId} />}
             </div>
             
         </div>
