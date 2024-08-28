@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CheckRequestForm from "../components/CheckRequestFormComponent";
+import AuthTableComponent from "../components/AuthTableComponent";
 import HeaderComponent from "../components/HeaderComponent";
-import SideBar from "../components/SideBarComponent";
 import SpendRequestFormContainer from "../containers/SpendRequestFormContainer";
 import { useAuth } from "../hooks/useAuth";
 
@@ -15,7 +14,7 @@ export const ContentsPage = () => {
   const [keihis, setKeihis] = useState<any[]>([]);
   const [is_create, setIs_create] = useState<boolean>(true);
   const [detail_id, setdetail_id] = useState<string>(null);
-  
+
 
 
   /* ------------------- */
@@ -53,10 +52,11 @@ export const ContentsPage = () => {
         <HeaderComponent role={currentUser.role} />
         <div className="flex flex-grow">
           {/* サイドバーにkeihiのpropsを渡す */}
-          <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/>
-          <div className="flex-grow">
+          {/* <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/> */}
+          {/* <div className="flex-grow">
             <CheckRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/>
-          </div>
+          </div> */}
+          <AuthTableComponent />
         </div>
       </div>
     );
