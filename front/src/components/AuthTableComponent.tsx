@@ -50,8 +50,10 @@ const AuthTableComponent = () => {
     }
 
     // ページの移動
-    const nextPage = () => setCurrentPage(currentPage + 1);
-    const prevPage = () => setCurrentPage(currentPage - 1);
+    const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, totalPages));
+    const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
+    const firstPage = () => setCurrentPage(1);
+    const lastPage = () => setCurrentPage(totalPages);
     const totalPages = Math.ceil(spend.length / itemsPerPage);
 
     return (
@@ -112,6 +114,13 @@ const AuthTableComponent = () => {
             {/* ページネーション */}
             <div className="flex justify-center mt-4">
                 <button
+                    onClick={firstPage}
+                    disabled={currentPage === 1}
+                    className={`px-4 py-2 mr-2 bg-gray-300 text-gray-700 rounded ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400'}`}
+                >
+                    最初へ
+                </button>
+                <button
                     onClick={prevPage}
                     disabled={currentPage === 1}
                     className={`px-4 py-2 mr-2 bg-gray-300 text-gray-700 rounded ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400'}`}
@@ -121,9 +130,16 @@ const AuthTableComponent = () => {
                 <button
                     onClick={nextPage}
                     disabled={currentPage === totalPages}
-                    className={`px-4 py-2 bg-gray-300 text-gray-700 rounded ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400'}`}
+                    className={`px-4 py-2 mr-2 bg-gray-300 text-gray-700 rounded ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400'}`}
                 >
                     次へ
+                </button>
+                <button
+                    onClick={lastPage}
+                    disabled={currentPage === totalPages}
+                    className={`px-4 py-2 bg-gray-300 text-gray-700 rounded ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400'}`}
+                >
+                    最後へ
                 </button>
             </div>
         </div>
