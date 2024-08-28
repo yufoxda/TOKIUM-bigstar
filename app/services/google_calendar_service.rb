@@ -17,8 +17,8 @@ class GoogleCalendarService
                                   order_by: 'startTime',
                                   time_min: time_min,
                                   time_max: time_max)
-    Rails.logger.info("events: #{events.inspect}")
-    Rails.logger.info(events.items)
+    # Rails.logger.info("events: #{events.inspect}")
+    # Rails.logger.info(events.items)
     format_events(events.items)
   end
 
@@ -26,7 +26,7 @@ class GoogleCalendarService
 
   def google_credentials_for(user)
     user_auth = user.user_authentications.find_by(provider: 'google_oauth2')
-    Rails.logger.info("user_auth: #{user_auth.inspect}")
+    # Rails.logger.info("user_auth: #{user_auth.inspect}")
     token = user_auth.token
     refresh_token = user_auth.refresh_token
     expires_at = user_auth.expires_at
