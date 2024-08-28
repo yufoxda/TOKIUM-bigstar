@@ -97,7 +97,7 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
         <form method="POST" onSubmit={handleSubmit} className="w-full h-full">
             <div className="w-full h-full flex flex-col">
             <div className="h-fit flex-none text-3xl p-2">
-                
+                編集
             </div>
             <div className="w-full h-full flex-grow flex overflow-auto flex">
                 <div className="w-1/2 p-4">
