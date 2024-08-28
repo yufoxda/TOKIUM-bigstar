@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import useCalendar from '../hooks/useCalendar';
-import formatDateToJapanese from '../utils/formatDate';
+import formatDateToJapanese, { formatDateToYYYYMMDD } from '../utils/formatDate';
 
 interface SpendRequestItem {
     date_of_use: string,
@@ -90,6 +90,25 @@ const CreateSpendRequestFormComponent = () => {
         }
     };
 
+    const handleEventClick = (event: any) => {
+        // カレンダーイベントのデータをフォームにセット
+        setSpendRequest({
+            ...spendRequest,
+            spend_to: event.location || "",
+            purpose: event.summary || "",
+            spend_request_item: [{
+                date_of_use: formatDateToYYYYMMDD(event.start) || "",
+                amount: 0,
+                keihi_class: "",
+                invoice_number: null,
+                contact_number: 0,
+                memo: "",
+                image_save: null
+            }]
+        });
+        hideOverlay();
+    };
+
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         const payload = { spend_request: spendRequest };
@@ -113,6 +132,8 @@ const CreateSpendRequestFormComponent = () => {
         } catch (error) {
             console.error("Error:", error);
         }
+
+        window.location.reload();
     };
 
     return (
@@ -123,16 +144,21 @@ const CreateSpendRequestFormComponent = () => {
                 {isOverlay && (
                     <div>
                         <button  type="button" onClick={hideOverlay} className="bg-red-500 text-white flex h-flex">閉じる</button>
-                        <p>該当するイベントを押して直接入力ができます(未実装)</p>
+                        <p>該当するイベントを押して直接入力ができます</p>
                         {events.map((event) => (
-                            <button key={event.id} className="bg-blue-400 text-white">{formatDateToJapanese(event.start)}, {event.summary}, {event.location}</button>
+                            <button
+                                key={event.id}
+                                className="bg-blue-400 text-white mt-2"
+                                onClick={() => handleEventClick(event)}
+                            >
+                                {formatDateToJapanese(event.start)}, {event.summary}, {event.location}
+                            </button>
                         ))}
                     </div>
                 )}
                 {!isOverlay && <div className="w-1/2">
-                    <button type="button" class="bg-blue-400 text-white" onClick={showOverlay}>Googleカレンダーから入力</button>
+                    <button type="button" className="bg-blue-400 text-white" onClick={showOverlay}>Googleカレンダーから入力</button>
                 </div>}
-                
             </div>
             <div className="w-1/2 p-4">
                 <input type="file" name="image_save" accept="image/jpg, image/png" onChange={(e) => handleInputChange(0, e as ChangeEvent<HTMLInputElement>)} />
@@ -140,30 +166,30 @@ const CreateSpendRequestFormComponent = () => {
             <div className="flex w-1/2 flex-col">
                 <div className="mx-auto w-full p-3">
                     <label className="my-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
-                    <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} />
-                    
+                    <input type="text" name="purpose" className="mt-1 inputcss" required value={spendRequest.purpose} onChange={handleTopLevelChange} />
+
                     <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
-                    <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} />
+                    <input type="text" name="spend_to" className="mt-1 inputcss" required value={spendRequest.spend_to} onChange={handleTopLevelChange} />
 
                     {spendRequest.spend_request_item.map((item, index) => (
                         <div key={index} className="flex flex-col mx-auto">
                             <label className="my-2 text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
-                            <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
-                            
+                            <input type="date" name="date_of_use" className="mt-1 inputcss" required value={item.date_of_use} onChange={(e) => handleInputChange(index, e)} />
+
                             <label className="my-2 text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
-                            <input type="number" name="amount" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
+                            <input type="number" name="amount" className="mt-1 inputcss" required value={item.amount} onChange={(e) => handleInputChange(index, e)} />
 
                             <label className="my-2 text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
-                            <input type="text" name="keihi_class" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
+                            <input type="text" name="keihi_class" className="mt-1 inputcss" required value={item.keihi_class} onChange={(e) => handleInputChange(index, e)} />
 
                             <label className="my-2 text-xl block text-gray-800">適格請求書番号</label>
-                            <input type="number" name="invoice_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
+                            <input type="number" name="invoice_number" className="mt-1 inputcss" value={item.invoice_number || ''} onChange={(e) => handleInputChange(index, e)} />
 
                             <label className="my-2 text-xl block text-gray-800">連絡請求番号</label>
-                            <input type="number" name="contact_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
+                            <input type="number" name="contact_number" className="mt-1 inputcss" value={item.contact_number} onChange={(e) => handleInputChange(index, e)} />
 
                             <label className="my-2 text-xl block text-gray-800">メモ</label>
-                            <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
+                            <textarea name="memo" className="mt-1 inputcss" value={item.memo} onChange={(e) => handleInputChange(index, e)} />
 
                             <button type="button" className="bg-red-500 text-white py-2 px-4 rounded my-5" onClick={() => handleRemoveItem(index)}>この項目を削除</button>
                         </div>
