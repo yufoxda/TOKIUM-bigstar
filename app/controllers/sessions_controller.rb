@@ -11,10 +11,10 @@ class SessionsController < ApplicationController
     refresh_token = user_info['credentials']['refresh_token']
     expires_at = Time.at(user_info['credentials']['expires_at'])
 
-    Rails.logger.info("google_user_id: #{google_user_id}")
+    # Rails.logger.info("google_user_id: #{google_user_id}")
     # token = generate_token_with_google_user_id(google_user_id, provider)
     token = JwtService.encode({ google_user_id: google_user_id, provider: provider })
-    Rails.logger.info("token: #{token}")
+    # Rails.logger.info("token: #{token}")
 
     user_authentication = UserAuthentication.find_by(uid: google_user_id, provider: provider)
 

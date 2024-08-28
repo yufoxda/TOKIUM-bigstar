@@ -16,17 +16,17 @@ class ApplicationController < ActionController::API
     if header.present?
       token = header.split(' ').last
       @token = token
-      Rails.logger.info "Received token: #{token}"
+      # Rails.logger.info "Received token: #{token}"
 
       begin
         decoded = JwtService.decode(token)
-        Rails.logger.info "Decoded JWT: #{decoded.inspect}"
+        # Rails.logger.info "Decoded JWT: #{decoded.inspect}"
 
         user_auth = UserAuthentication.find_by(uid: decoded["google_user_id"], provider: decoded["provider"])
         @current_user = user_auth.user if user_auth
 
-        Rails.logger.info "User authentication record: #{user_auth.inspect}"
-        Rails.logger.info "Current user: #{@current_user.inspect}"
+        # Rails.logger.info "User authentication record: #{user_auth.inspect}"
+        # Rails.logger.info "Current user: #{@current_user.inspect}"
 
         unless @current_user
           raise ActiveRecord::RecordNotFound, 'User not found'

@@ -3,7 +3,7 @@ class Api::V1::GoogleCalendarsController < ApplicationController
   before_action :authenticate_request
 
   def events
-    Rails.logger.info("Fetching Google Calendar events for user #{@current_user.id}")
+    # Rails.logger.info("Fetching Google Calendar events for user #{@current_user.id}")
     service = ::GoogleCalendarService.new(@current_user, @token) 
 
     begin
