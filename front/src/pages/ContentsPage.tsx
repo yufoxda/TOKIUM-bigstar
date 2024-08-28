@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CheckRequestForm from "../components/CheckRequestFormComponent";
 import HeaderComponent from "../components/HeaderComponent";
 import SideBar from "../components/SideBarComponent";
 import SpendRequestForm from "../components/SpendRequestFormComponent";
-import CheckRequestForm from "../components/CheckRequestFormComponent";
 import { useAuth } from "../hooks/useAuth";
-import { useFetchKeihis } from "../hooks/useFetchKeihis";
-import axios from "axios";
+import { useExportCsv } from "../hooks/useExportCsv";
 
 const API_URL = "http://localhost:3000/api/v1";
 
@@ -17,6 +16,7 @@ export const ContentsPage = () => {
   const [keihis, setKeihis] = useState<any[]>([]);
   const [is_create, setIs_create] = useState<boolean>(true);
   const [detail_id, setdetail_id] = useState<string>(null);
+  const {exportCsv} = useExportCsv();
   
 
 
@@ -63,6 +63,7 @@ export const ContentsPage = () => {
             <CheckRequestForm />
           </div>
         </div>
+        <button onClick={exportCsv}>Export CSV</button>
       </div>
     );
   } else {
@@ -77,6 +78,7 @@ export const ContentsPage = () => {
           <SpendRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/>
         </div>
       </div>
+      <button onClick={exportCsv}>Export CSV</button>
     </div>
     );
   }

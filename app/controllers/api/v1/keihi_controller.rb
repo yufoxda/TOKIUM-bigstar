@@ -1,3 +1,5 @@
+require "csv"
+
 class Api::V1::KeihiController < ApplicationController
   skip_before_action :authenticate_request
 
@@ -129,7 +131,6 @@ class Api::V1::KeihiController < ApplicationController
     render json: { error: 'Record not found' }, status: :not_found
   end
 
-
   def change_status
     status = params[:status]
     keihi_id = params[:id]
@@ -146,7 +147,42 @@ class Api::V1::KeihiController < ApplicationController
   rescue => e
     render json: { error: e.message }, status: :internal_server_error
   end
-  
+
+  # param[:user_id]に対応するユーザーの申請を取得する
+  # param[:role] userならそのユーザーのデータ、authなら承認者のデータを取得する
+  def export_csv
+    user_id = params[:user_id]
+    role = User.find(user_id).role
+    
+    if role == "user"
+      spend_requests = SpendRequest.includes(:spend_request_item).where(user_id: user_id)
+      filename = "keihi_data_user_#{user_id}.csv"
+    elsif role == "auth"
+      spend_requests = SpendRequest.includes(:spend_request_item).all
+      filename = "keihi_data_auth.csv"
+    end
+
+    if spend_requests.exists?
+      # CSVファイルを作成
+      user_name = User.find(user_id).name
+      csv_data = CSV.generate do |csv|
+        csv << ["ID", "User ID", "User Name","Status", "Date of Use", "Amount", "Keihi Class", "Invoice Number", "Contact Number", "Memo"]
+        spend_requests.each do |spend_request|
+          spend_request.spend_request_item.each do |item|
+            if role == "auth"
+              user_name = User.find(spend_request.user_id).name
+            end
+            csv << [spend_request.id, spend_request.user_id, user_name, spend_request.status, item.date_of_use, item.amount, item.keihi_class, item.invoice_number, item.contact_number, item.memo]
+          end
+        end
+      end
+      # CSVファイルを返す
+      send_data csv_data, filename: filename, type: 'text/csv'
+    else
+      # レコードが見つからなかった場合の処理
+      render json: { error: "No spend requests found" }, status: :not_found
+    end
+  end
 
   private
   
