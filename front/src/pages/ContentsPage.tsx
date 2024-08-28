@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CheckRequestForm from "../components/CheckRequestFormComponent";
 import HeaderComponent from "../components/HeaderComponent";
 import SideBar from "../components/SideBarComponent";
-import SpendRequestForm from "../components/SpendRequestFormComponent";
-import CheckRequestForm from "../components/CheckRequestFormComponent";
+import SpendRequestFormContainer from "../containers/SpendRequestFormContainer";
 import { useAuth } from "../hooks/useAuth";
-import { useFetchKeihis } from "../hooks/useFetchKeihis";
-import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/v1";
 
@@ -71,10 +69,11 @@ export const ContentsPage = () => {
 
       <div className="w-screen h-screen flex flex-col">
       <HeaderComponent />
-      <div className="flex-1 flex min-h-0">
-        <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/>
+      <div className="flex-1 flex min-h-0 h-full">
+        {/* <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/> */}
         <div className="flex-1 h-full overflow-auto">
-          <SpendRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/>
+          {/* <SpendRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/> */}
+          <SpendRequestFormContainer className="h-full" />
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import mockData from '../../mockdata'   // モックデータの読み込み
 
 
 interface Props {
@@ -365,12 +364,14 @@ function formatCreatedAt(created_at: string):string{
 }
 
 
-const SideBar = ({keihis,setIs_create,setdetail_id}) =>{
+const SideBar = ({keihis,setIs_create,setdetail_id, onButtonClick }) =>{
     
     const to_detail = (id) => {
+        console.log(id);
         setIs_create(false); // 詳細表示に変更
         setdetail_id(id);
-        console.log(id);
+        onButtonClick(id)
+        
     };
       
     const to_create = () => {
@@ -390,7 +391,7 @@ const SideBar = ({keihis,setIs_create,setdetail_id}) =>{
                 // items.push(<button className="bg-yellow-300">新規作成</button>)
                 for (let i = 0; i < keihis.length; i++) {
                     items.push(
-                    <button type="button" onClick={() => to_detail(keihis[i].id)} className="h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent">
+                    <button type="button" id={keihis[i].id} onClick={() => to_detail(keihis[i].id)} className="h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent">
                         <div className="w-full flex flex-col">
                             <div className="w-full flex flex-row">
                                 <div className="w-1/3">
