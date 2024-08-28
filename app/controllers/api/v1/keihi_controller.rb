@@ -4,7 +4,7 @@ class Api::V1::KeihiController < ApplicationController
   # GET /api/v1/keihi/index
   # すべての申請を取得する
   def index
-    spend_requests = SpendRequest.includes(:spend_request_item).all
+    spend_requests = SpendRequest.includes(:spend_request_item).order(created_at: :desc)
     render json: spend_requests.as_json(include: :spend_request_item), status: :ok
   rescue => e
     render json: { error: e.message }, status: :internal_server_error
@@ -29,7 +29,7 @@ class Api::V1::KeihiController < ApplicationController
   # あるユーザーのすべての申請を取得する
   def get_by_user
     # 指定されたuser_idに対応するすべてのspend_requestsを取得
-    spend_requests = SpendRequest.includes(:spend_request_item).where(user_id: params[:user_id])
+    spend_requests = SpendRequest.includes(:spend_request_item).where(user_id: params[:user_id]).order(created_at: :desc)
 
     if spend_requests.exists?
       # JSON形式でspend_requestsとその関連アイテムを返す
