@@ -1,6 +1,8 @@
 
-import { useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import useCalendar from '../hooks/useCalendar';
+import formatDateToJapanese, { formatDateToYYYYMMDD } from '../utils/formatDate';
 
 interface SpendRequestItem {
     date_of_use: string,
@@ -22,11 +24,18 @@ interface SpendRequest {
 
 const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendRequestId:string) => {
     const { currentUser, token } = useAuth();
+    const { events, loading, error } = useCalendar();
     const API_URL = "http://localhost:3000/api/v1";
     // const [selectedRequest, setSelectedRequest] = useState<SpendRequest | null>(null);
     const [spendRequest, setSpendRequest] = useState<SpendRequest>(spend_requests.spend_requests);
-    console.log(spendRequest);
-    
+    const [isOverlay, setIsOverlay] = useState<boolean>(false);
+
+    const showOverlay = () => {
+        setIsOverlay(true);
+    }
+    const hideOverlay = () => {
+        setIsOverlay(false);
+    }
 
     useEffect(() => {
         // console.log(spend_requests);
@@ -75,6 +84,25 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
         }
     };
 
+    const handleEventClick = (event: any) => {
+        // カレンダーイベントのデータをフォームにセット
+        setSpendRequest({
+            ...spendRequest,
+            spend_to: event.location || "",
+            purpose: event.summary || "",
+            spend_request_item: [{
+                date_of_use: formatDateToYYYYMMDD(event.start) || "",
+                amount: 0,
+                keihi_class: "",
+                invoice_number: null,
+                contact_number: 0,
+                memo: "",
+                image_save: null
+            }]
+        });
+        hideOverlay();
+    };
+
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         const payload = { spend_request: spendRequest };
@@ -91,9 +119,31 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
     };
     // if (!selectedRequest) return <div>Loading...</div>;
 
-    
+
     return (
         <form method="POST" onSubmit={handleSubmit} className="w-full h-full flex">
+            <div>
+                {isOverlay && loading && <p>Loading...</p>}
+                {isOverlay && error && <p>Error: {error.message}</p>}
+                {isOverlay && (
+                    <div>
+                        <button  type="button" onClick={hideOverlay} className="bg-red-500 text-white flex h-flex">閉じる</button>
+                        <p>該当するイベントを押して直接入力ができます</p>
+                        {events.map((event) => (
+                            <button
+                                key={event.id}
+                                className="bg-blue-400 text-white mt-2"
+                                onClick={() => handleEventClick(event)}
+                            >
+                                {formatDateToJapanese(event.start)}, {event.summary}, {event.location}
+                            </button>
+                        ))}
+                    </div>
+                )}
+                {!isOverlay && <div className="w-1/2">
+                    <button type="button" className="bg-blue-400 text-white" onClick={showOverlay}>Googleカレンダーから入力</button>
+                </div>}
+            </div>
             <div className="w-1/2 p-4">
                 <input type="file" name="image_save" accept="image/jpg, image/png" onChange={(e) => handleInputChange(0, e as ChangeEvent<HTMLInputElement>)} />
             </div>
@@ -101,7 +151,7 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
                 <div className="mx-auto w-full p-3">
                     <label className="my-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
                     <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
-                    
+
                     <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
                     <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
 
@@ -109,7 +159,7 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
                         <div key={index} className="flex flex-col mx-auto">
                             <label className="my-2 text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
                             <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.date_of_use}/>
-                            
+
                             <label className="my-2 text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
                             <input type="number" name="amount" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.amount}/>
 
