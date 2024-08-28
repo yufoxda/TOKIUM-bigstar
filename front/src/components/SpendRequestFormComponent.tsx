@@ -57,10 +57,13 @@ const SpendRequestForm = ({
     if (spend) {
       setFormData((prevData) => ({
         ...prevData,
+        
         spend_to: spend.spend_to || prevData.spend_to,
         purpose: spend.purpose || prevData.purpose,
-        spend_request_item:
-          spend.spend_request_item || prevData.spend_request_item,
+        spend_request_item: spend.spend_request_item.map((item) => {
+            const { ...rest } = item;  // idを取り除く
+            return rest;  // 残りのプロパティだけを返す
+          }),
       }));
     }
   }, [spend]);
@@ -104,7 +107,7 @@ const SpendRequestForm = ({
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/keihi/${is_create ? "create" : "update"}`,
+        `http://localhost:3000/api/v1/keihi/${is_create ? "create" : "update/" +  detail_id}`,
         {
           method: is_create ? "POST" : "PUT",
           headers: {
@@ -117,12 +120,14 @@ const SpendRequestForm = ({
       if (response.ok) {
         console.log("Request succeeded");
       } else {
-        console.log("Request failed");
+        console.log("Request failed", JSON.stringify({ spend_request: formData }));
+
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+  
 
   const addCounter = () => {
     setCount((prevCount) => prevCount + 1);
@@ -155,7 +160,7 @@ const SpendRequestForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full h-full">
+    <form onSubmit={handleSubmit } className="w-full h-full">
       <div className="w-full h-full flex flex-col">
         <div className="h-fit flex-none text-3xl p-2">
           {is_create ? "新規作成" : "編集"}
@@ -178,7 +183,7 @@ const SpendRequestForm = ({
                     <label className="text-xl block text-gray-800">
                       利用日<span className="text-red-600 text-base">*</span>
                     </label>
-                    {console.log(formData, index)}
+                    {console.log(formData, index,spend)}
                     <input
                       name="date_of_use"
                       type="date"
