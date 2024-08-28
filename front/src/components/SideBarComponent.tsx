@@ -1,4 +1,5 @@
 import mockData from '../../mockdata'   // モックデータの読み込み
+import React, { useState } from "react";
 
 
 interface Props {

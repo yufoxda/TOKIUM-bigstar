@@ -52,13 +52,12 @@ export const ContentsPage = () => {
     // authの時のコンポーネント
     return (
       <div className="w-screen h-screen flex flex-col">
-        <p>authです</p>
         <HeaderComponent role={currentUser.role} />
         <div className="flex flex-grow">
           {/* サイドバーにkeihiのpropsを渡す */}
-          <SideBar keihis={keihis} />
+          <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/>
           <div className="flex-grow">
-            <CheckRequestForm />
+            <CheckRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/>
           </div>
         </div>
       </div>
