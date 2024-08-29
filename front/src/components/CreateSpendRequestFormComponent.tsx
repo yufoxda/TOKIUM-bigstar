@@ -2,6 +2,8 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import useCalendar from '../hooks/useCalendar';
 import formatDateToJapanese from '../utils/formatDate';
+import { ImageFormComponent } from './ImageFormComponent';
+
 
 interface SpendRequestItem {
     date_of_use: string,
@@ -133,10 +135,10 @@ const CreateSpendRequestFormComponent = () => {
                     新規作成
                 </div>
                 <div className="w-full h-full flex-grow flex overflow-auto flex">
-                    <div className="w-1/2 p-4">
-                        <input type="file" name="image_save" accept="image/jpg, image/png" onChange={(e) => handleInputChange(0, e as ChangeEvent<HTMLInputElement>)} />
-                    </div>
-                    <div className="w-1/2 p-4">
+                    {/* <div className="w-1/2 p-4">
+                        <ImageFormComponent/>
+                    </div> */}
+                    <div className="p-4">
                         {/* モーダル表示ボタン */}
                         <button
                             type="button"
@@ -152,27 +154,32 @@ const CreateSpendRequestFormComponent = () => {
                         <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
                         <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} />
 
-                        {spendRequest.spend_request_item.map((item, index) => (
-                            <div key={index} className="">
-                                <label className="my-2 text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
-                                <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
-                                
-                                <label className="my-2 text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
-                                <input type="number" name="amount" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
+                        {spendRequest.spend_request_item.map((item, index) => (                
+                            <div className="w-100 flex mt-3 bg-red-300">
+                                <div className="w-1/2 p-4">
+                                    <ImageFormComponent/>
+                                </div>
+                                <div key={index} className="w-1/2 p-4 bg-red-100">
+                                    <label className="my-2 text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
+                                    <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
+                                    
+                                    <label className="my-2 text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
+                                    <input type="number" name="amount" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
 
-                                <label className="my-2 text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
-                                <input type="text" name="keihi_class" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
+                                    <label className="my-2 text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
+                                    <input type="text" name="keihi_class" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
 
-                                <label className="my-2 text-xl block text-gray-800">適格請求書番号</label>
-                                <input type="number" name="invoice_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
+                                    <label className="my-2 text-xl block text-gray-800">適格請求書番号</label>
+                                    <input type="number" name="invoice_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
 
-                                <label className="my-2 text-xl block text-gray-800">連絡請求番号</label>
-                                <input type="number" name="contact_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
+                                    <label className="my-2 text-xl block text-gray-800">連絡請求番号</label>
+                                    <input type="number" name="contact_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
 
-                                <label className="my-2 text-xl block text-gray-800">メモ</label>
-                                <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
+                                    <label className="my-2 text-xl block text-gray-800">メモ</label>
+                                    <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
 
-                                <button type="button" className="bg-red-500 text-white py-2 px-4 rounded my-5" onClick={() => handleRemoveItem(index)}>この項目を削除</button>
+                                    <button type="button" className="bg-red-500 text-white py-2 px-4 rounded my-5" onClick={() => handleRemoveItem(index)}>この項目を削除</button>
+                                </div>
                             </div>
                         ))}
                         <button type="button" className="bg-blue-500 text-white py-2 px-4 rounded" onClick={handleAddItem}>項目追加</button>
