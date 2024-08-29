@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuth } from '../hooks/useAuth';
 import useCalendar from '../hooks/useCalendar';
 import formatDateToJapanese, { formatDateToYYYYMMDD } from '../utils/formatDate';
+import parseDescription from '../utils/parseDescription';
 import { ImageFormComponent } from './ImageFormComponent';
 
 interface SpendRequestItem {
@@ -104,15 +105,16 @@ const CreateSpendRequestFormComponent = () => {
 
   const handleCalenderEventClick = (event: any) => {
     const updatedItems = [...spendRequest.spend_request_item];
+    const parsed = parseDescription(event);
 
     // 最後のアイテムを更新
     updatedItems[updatedItems.length - 1] = {
       ...updatedItems[updatedItems.length - 1],
       date_of_use: formatDateToYYYYMMDD(event.start) || "",
-      amount: 0,
-      keihi_class: "",
-      invoice_number: null,
-      contact_number: "",
+      amount: parsed.amount,
+      keihi_class: parsed.keihi_class,
+      invoice_number: parsed.invoice_number,
+      contact_number: parsed.contact_number,
       memo: event.description || "",
       image_save: null,
     };
@@ -120,7 +122,7 @@ const CreateSpendRequestFormComponent = () => {
     // 更新された `spend_request_item` 配列をセット
     setSpendRequest({
       ...spendRequest,
-      spend_to: event.location || "",
+      spend_to: parsed.spend_to || "",
       purpose: event.summary || "",
       spend_request_item: updatedItems,
     });
