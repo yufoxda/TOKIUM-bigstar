@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CheckRequestForm from "../components/CheckRequestFormComponent";
+import AuthTableComponent from "../components/AuthTableComponent";
 import HeaderComponent from "../components/HeaderComponent";
-import SideBar from "../components/SideBarComponent";
-import SpendRequestForm from "../components/SpendRequestFormComponent";
+import SpendRequestFormContainer from "../containers/SpendRequestFormContainer";
 import { useAuth } from "../hooks/useAuth";
 import { useExportCsv } from "../hooks/useExportCsv";
 
@@ -22,7 +21,6 @@ export const ContentsPage = () => {
 
   /* ------------------- */
   useEffect(() => {
-    console.log(currentUser);
     if (token) {
       let end_path: string = "";
 
@@ -32,7 +30,6 @@ export const ContentsPage = () => {
         end_path = `get_by_user?user_id=${currentUser.id}`;
       }
 
-      console.log(end_path);
       fetch(`${API_URL}/keihi/${end_path}`, {
         method: "GET",
       })
@@ -54,14 +51,14 @@ export const ContentsPage = () => {
     // authの時のコンポーネント
     return (
       <div className="w-screen h-screen flex flex-col">
-        <p>authです</p>
         <HeaderComponent role={currentUser.role} />
         <div className="flex flex-grow">
           {/* サイドバーにkeihiのpropsを渡す */}
-          <SideBar keihis={keihis} />
-          <div className="flex-grow">
-            <CheckRequestForm />
-          </div>
+          {/* <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/> */}
+          {/* <div className="flex-grow">
+            <CheckRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/>
+          </div> */}
+          <AuthTableComponent />
         </div>
         <button onClick={exportCsv}>Export CSV</button>
       </div>
@@ -73,10 +70,11 @@ export const ContentsPage = () => {
       <div className="w-screen h-screen flex flex-col">
       <HeaderComponent />
       <div className="flex-1 flex min-h-0">
-        <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/>
-        <div className="flex-1 h-full overflow-auto">
-          <SpendRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/>
-        </div>
+        {/* <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/> */}
+    
+          {/* <SpendRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/> */}
+          <SpendRequestFormContainer className="h-full" />
+   
       </div>
       <button onClick={exportCsv}>Export CSV</button>
     </div>
