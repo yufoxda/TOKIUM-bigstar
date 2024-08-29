@@ -206,13 +206,13 @@ class Api::V1::KeihiController < ApplicationController
       # CSVファイルを作成
       user_name = User.find(user_id).name
       csv_data = CSV.generate do |csv|
-        csv << ["ID", "User ID", "User Name","Status", "Date of Use", "Amount", "Keihi Class", "Invoice Number", "Contact Number", "Memo"]
+        csv << ["ID", "User ID", "User Name","Status","Purpose","Spend_to", "Date of Use", "Amount", "Keihi Class", "Invoice Number", "Contact Number", "Memo"]
         spend_requests.each do |spend_request|
           spend_request.spend_request_item.each do |item|
             if role == "auth"
               user_name = User.find(spend_request.user_id).name
             end
-            csv << [spend_request.id, spend_request.user_id, user_name, spend_request.status, item.date_of_use, item.amount, item.keihi_class, item.invoice_number, item.contact_number, item.memo]
+            csv << [spend_request.id, spend_request.user_id, user_name, spend_request.status,spend_request.purpose,spend_request.spend_to, item.date_of_use, item.amount, item.keihi_class, item.invoice_number, item.contact_number, item.memo]
           end
         end
       end
