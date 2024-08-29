@@ -5,8 +5,8 @@ const API_URL = "http://localhost:3000/api/v1";
 
 export const useGetSpendItem = (id: string | null) => {
   const [spend, setSpend] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading_spend, setLoading] = useState<boolean>(true); // loading_spend に名前変更
+  const [error_spend, setError] = useState<string | null>(null); // error_spend に名前変更
 
   useEffect(() => {
     const fetchSpend = async () => {
@@ -28,5 +28,5 @@ export const useGetSpendItem = (id: string | null) => {
     }
   }, [id]);
 
-  return { spend, loading, error };
+  return { spend, loading_spend, error_spend }; // 戻り値に名前変更を反映
 };
