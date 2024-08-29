@@ -362,23 +362,20 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
 
   return (
     <div className="w-80 px-3 h-full bg-gray-200 flex flex-col">
-      <div className="h-fit my-5 w-full flex justify-center">
-        <button
-          className="bg-yellow-300 w-64"
-          onClick={() => setShowPending(!showPending)}
-        >
-          {showPending ? "すべて表示" : "未承認のみ"}
-        </button>
-        <button
-          type="button"
-          onClick={to_create}
-          className="bg-yellow-300 w-64"
-        >
+        <button type="button" onClick={to_create} className="bg-yellow-300 w-64 h-14 my-3 mx-auto">
           新規作成
         </button>
-      </div>
-      <div className="h-full overflow-hidden">
-        <div className="overflow-y-auto h-full space-y-5 font-medium">
+      <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              className="form-checkbox"
+              checked={showPending}
+              onChange={() => setShowPending(!showPending)}
+            />
+            <span className="ml-2 text-gray-700">未承認のみ</span>
+          </label>
+      <div className="h-full pb-3 overflow-hidden ">
+        <div className="pr-0.5 overflow-y-auto overflow-x-hidden h-full space-y-5 font-medium rounded">
           {filteredKeihis.map((item) => (
             <button
               type="button"
