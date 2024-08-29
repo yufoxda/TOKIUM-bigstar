@@ -57,7 +57,7 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
 
   return (
     <div className="w-80 px-3 h-full bg-gray-200 flex flex-col">
-        <button type="button" onClick={to_create} className="bg-yellow-300 w-64 h-14 my-3 mx-auto">
+        <button type="button" onClick={to_create} className="bg-yellow-300 w-64 h-14 my-3 mx-auto flex-none">
           新規作成
         </button>
       <label className="inline-flex items-center">
@@ -97,7 +97,7 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
           ))}
         </div>
       </div>
-      <button className="bg-gray-300  w-64 h-14 my-3 mx-auto flex items-center" onClick={exportCsv}>
+      <button className="bg-gray-300  w-64 h-14 my-3 mx-auto flex items-center flex-none" onClick={exportCsv}>
           <div className="w-fit mx-auto inline-flex items-center">
             <svg class="w-6 h-6 text-gray-800 dark:text-white bg-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 10V4a1 1 0 0 0-1-1H9.914a1 1 0 0 0-.707.293L5.293 7.207A1 1 0 0 0 5 7.914V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2M10 3v4a1 1 0 0 1-1 1H5m5 6h9m0 0-2-2m2 2-2 2"/>

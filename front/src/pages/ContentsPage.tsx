@@ -50,7 +50,7 @@ export const ContentsPage = () => {
     return (
       <div className="w-screen h-screen flex flex-col">
         <HeaderComponent role={currentUser.role} />
-        <div className="flex flex-grow">
+        <div className="flex flex-grow ">
           {/* サイドバーにkeihiのpropsを渡す */}
           {/* <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/> */}
           {/* <div className="flex-grow">
@@ -58,13 +58,13 @@ export const ContentsPage = () => {
           </div> */}
           <AuthTableComponent />
         </div>
-      </div>
+      </div> 
     );
   } else {
     // userの時の
     return (
 
-      <div className="w-screen h-screen flex flex-col">
+      <div className="w-screen min-w-fit h-screen flex flex-col">
       <HeaderComponent />
       <div className="flex-1 flex min-h-0">
           <SpendRequestFormContainer className="h-full" />
