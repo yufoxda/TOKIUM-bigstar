@@ -390,7 +390,11 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
               key={item.id}
               id={item.id}
               onClick={() => to_detail(item.id)}
-              className="h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent"
+              className={`h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent ${
+                calculateTotalAmount(item.spend_request_item) > 100000
+                  ? "bg-amber-600"
+                  : ""
+              }`}
             >
               <div className="w-full flex flex-col">
                 <div className="w-full flex flex-row">

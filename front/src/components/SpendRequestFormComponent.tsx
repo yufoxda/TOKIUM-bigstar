@@ -57,13 +57,13 @@ const SpendRequestForm = ({
     if (spend) {
       setFormData((prevData) => ({
         ...prevData,
-        
+
         spend_to: spend.spend_to || prevData.spend_to,
         purpose: spend.purpose || prevData.purpose,
         spend_request_item: spend.spend_request_item.map((item) => {
-            const { ...rest } = item;  // idを取り除く
-            return rest;  // 残りのプロパティだけを返す
-          }),
+          const { ...rest } = item; // idを取り除く
+          return rest; // 残りのプロパティだけを返す
+        }),
       }));
     }
   }, [spend]);
@@ -107,7 +107,9 @@ const SpendRequestForm = ({
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/keihi/${is_create ? "create" : "update/" +  detail_id}`,
+        `http://localhost:3000/api/v1/keihi/${
+          is_create ? "create" : "update/" + detail_id
+        }`,
         {
           method: is_create ? "POST" : "PUT",
           headers: {
@@ -120,14 +122,15 @@ const SpendRequestForm = ({
       if (response.ok) {
         console.log("Request succeeded");
       } else {
-        console.log("Request failed", JSON.stringify({ spend_request: formData }));
-
+        console.log(
+          "Request failed",
+          JSON.stringify({ spend_request: formData })
+        );
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  
 
   const addCounter = () => {
     setCount((prevCount) => prevCount + 1);
@@ -152,7 +155,7 @@ const SpendRequestForm = ({
 
   const subCounter = () => {
     if (count > 1) {
-      setCount((prevCount) => prevCount<2 ? prevCount: - 1);
+      setCount((prevCount) => (prevCount < 2 ? prevCount : -1));
       setFormData((prevData) => {
         const updatedItems = [...prevData.spend_request_item];
         updatedItems.pop();
@@ -160,18 +163,17 @@ const SpendRequestForm = ({
       });
     }
   };
-  
+
   return (
-    <form onSubmit={handleSubmit } className="w-full h-full">
+    <form onSubmit={handleSubmit} className="w-full h-full">
       <div className="w-full h-full flex flex-col">
         <div className="h-fit flex-none text-3xl p-2">
           {is_create ? "新規作成" : "編集"}
         </div>
         <div className="w-full h-full flex-grow flex overflow-auto">
-            <div className="w-full h-fit">
+          <div className="w-full h-fit">
             {formData.spend_request_item.map((item, index) => (
               <div key={index} className="w-full h-full flex">
-                
                 <div className="w-1/2 p-4">
                   <input
                     type="file"
@@ -182,15 +184,14 @@ const SpendRequestForm = ({
                   />
                 </div>
                 <div className="w-1/2 p-4">
-                <div w-full flex flex-row>
-  
+                  <div w-full flex flex-row>
                     <div>{index + 1}</div>
-                </div>
+                  </div>
                   <div className="my-2">
                     <label className="text-xl block text-gray-800">
                       利用日<span className="text-red-600 text-base">*</span>
                     </label>
-                    {console.log(formData, index,spend)}
+                    {console.log(formData, index, spend)}
                     <input
                       name="date_of_use"
                       type="date"
@@ -257,7 +258,7 @@ const SpendRequestForm = ({
                   </div>
                   <div className="my-2">
                     <label className="text-xl block text-gray-800">
-                      的確請求書番号
+                      適格請求書番号
                     </label>
                     <input
                       type="number"
@@ -295,13 +296,27 @@ const SpendRequestForm = ({
               </div>
             ))}
             <div className="w-full flex justify-center gap-4 px-2">
-                <button type="button" onClick={addCounter}>
-                    <svg class="w-12 h-12 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                    </svg>
-                </button>
+              <button type="button" onClick={addCounter}>
+                <svg
+                  class="w-12 h-12 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </button>
             </div>
-            </div>
+          </div>
         </div>
         <div className="w-full h-fit p-4">
           <button type="submit" className="bg-green-500 text-white p-2 rounded">
