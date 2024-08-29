@@ -55,10 +55,10 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
             ...spendRequest,
             spend_request_item: [...spendRequest.spend_request_item, {
                 date_of_use: "",
-                amount: 0,
+                amount: null,
                 keihi_class: "",
                 invoice_number: null,
-                contact_number: 0,
+                contact_number: null,
                 memo: "",
                 image_save: null
             }]
@@ -97,18 +97,19 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
         
         <form method="POST" onSubmit={handleSubmit} className="w-full h-full">
             <div className="w-full h-full flex flex-col">
-                <div className="h-fit flex-none text-3xl p-2">
-                    編集
-                </div>
-                <div className="w-full h-full flex-grow overflow-auto">
+            <div className="h-14 flex items-center text-3xl my-3 px-3 ">
+                編集
+            </div>
+
+                <div className="w-full h-full flex-grow overflow-auto px-3">
                     <div className="w-full h-full">
                         <div className="w-full h-fit flex">
-                            <div className="w-1/2 p-4">
+                            <div className="w-1/2">
                             {console.log("UpdateSpendRequestFormComponent")}
                                 <input type="file" name="image_save" accept="image/jpg, image/png" onChange={(e) => handleInputChange(0, e as ChangeEvent<HTMLInputElement>)} />
                             </div>
-                            <div className="w-1/2 p-4">
-                                <label className="my-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
+                            <div className="w-1/2">
+                                <label className="mb-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
                                 <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
 
                                 <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
@@ -157,7 +158,7 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
                     </div>
                 </div>
                 <div className="h-12 w-full flex-none">
-                    <button className=" w-full bg-green-500 text-white rounded" type="submit">送信</button>
+                    <button className=" w-full bg-green-500 text-white rounded" type="submit">変更</button>
                 </div>
                 
             </div>

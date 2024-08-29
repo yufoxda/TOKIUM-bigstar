@@ -4,7 +4,6 @@ import AuthTableComponent from "../components/AuthTableComponent";
 import HeaderComponent from "../components/HeaderComponent";
 import SpendRequestFormContainer from "../containers/SpendRequestFormContainer";
 import { useAuth } from "../hooks/useAuth";
-import { useExportCsv } from "../hooks/useExportCsv";
 
 const API_URL = "http://localhost:3000/api/v1";
 
@@ -15,7 +14,6 @@ export const ContentsPage = () => {
   const [keihis, setKeihis] = useState<any[]>([]);
   const [is_create, setIs_create] = useState<boolean>(true);
   const [detail_id, setdetail_id] = useState<string>(null);
-  const {exportCsv} = useExportCsv();
   
 
 
@@ -60,7 +58,6 @@ export const ContentsPage = () => {
           </div> */}
           <AuthTableComponent />
         </div>
-        <button onClick={exportCsv}>Export CSV</button>
       </div>
     );
   } else {
@@ -70,13 +67,9 @@ export const ContentsPage = () => {
       <div className="w-screen h-screen flex flex-col">
       <HeaderComponent />
       <div className="flex-1 flex min-h-0">
-        {/* <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/> */}
-    
-          {/* <SpendRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/> */}
           <SpendRequestFormContainer className="h-full" />
-   
       </div>
-      <button onClick={exportCsv}>Export CSV</button>
+      
     </div>
     );
   }
