@@ -41,7 +41,7 @@ class Api::V1::KeihiController < ApplicationController
     # 指定されたuser_idに対応するすべてのspend_requestsを取得
     spend_requests = SpendRequest.includes(:spend_request_item).where(user_id: params[:user_id]).order(created_at: :desc)
 
-    if spend_requests.exists?
+    if spend_requests.exists? || spend_requests == []
       # JSON形式でspend_requestsとその関連アイテムを返す
       render json: spend_requests.as_json(include: :spend_request_item), status: :ok
     else
