@@ -10,7 +10,7 @@ interface SpendRequestItem {
     expenseCategory: string; // 経費科目（オプション）
     // 他のプロパティがあればここに追加
   }
-  
+
   interface SpendRequest {
     userId: string;          // user_id（一般的に文字列として表現される）
     status: string;          // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
@@ -22,7 +22,7 @@ interface SpendRequestItem {
 
 /* モックデータ */
 const itemList : SpendRequest[]=[
-    {   
+    {
         userId: "A0001",
         status: "申請中",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "電車",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -42,7 +42,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "札幌行きタクシー",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -61,7 +61,7 @@ const itemList : SpendRequest[]=[
                 expenseCategory: "帰り",
             }
         ]    },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -80,27 +80,7 @@ const itemList : SpendRequest[]=[
                 expenseCategory: "帰り",
             }
         ]
-    },    {   
-        userId: "A0001",
-        status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-        spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-        createdAt: "2024-7-2",       // created_at（ISO 8601形式の文字列として表現される場合）
-        updatedAt: "2024-7-2",       // updated_at（ISO 8601形式の文字列として表現される場合）
-        spendRequestItems:
-        [
-            {
-                amount: 1000,
-                usageDate: "2024-8-30",
-                expenseCategory: "行き",
-            },
-            {
-                amount: 1000,
-                usageDate: "2024-8-30",
-                expenseCategory: "帰り",
-            }
-        ]
-    },
-    {   
+    },    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -120,7 +100,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -140,7 +120,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -160,7 +140,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -180,7 +160,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -200,7 +180,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -220,7 +200,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -240,7 +220,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -260,7 +240,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -280,7 +260,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -300,7 +280,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -320,7 +300,7 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    {   
+    {
         userId: "A0001",
         status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
         spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
@@ -340,7 +320,27 @@ const itemList : SpendRequest[]=[
             }
         ]
     },
-    
+    {
+        userId: "A0001",
+        status: "承認待ち",       // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
+        spendTo: "ハワイ行き飛行機",      // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
+        createdAt: "2024-7-2",       // created_at（ISO 8601形式の文字列として表現される場合）
+        updatedAt: "2024-7-2",       // updated_at（ISO 8601形式の文字列として表現される場合）
+        spendRequestItems:
+        [
+            {
+                amount: 1000,
+                usageDate: "2024-8-30",
+                expenseCategory: "行き",
+            },
+            {
+                amount: 1000,
+                usageDate: "2024-8-30",
+                expenseCategory: "帰り",
+            }
+        ]
+    },
+
 ]
 
 /* 経費合計の計算をする関数 */
@@ -365,15 +365,15 @@ function formatCreatedAt(created_at: string):string{
 
 
 const SideBar = ({keihis,setIs_create,setdetail_id, onButtonClick }) =>{
-    
+
     const to_detail = (id) => {
         console.log(id);
         setIs_create(false); // 詳細表示に変更
         setdetail_id(id);
         onButtonClick(id)
-        
+
     };
-      
+
     const to_create = () => {
     setIs_create(true); // 新規作成に変更
     setdetail_id(null);
@@ -407,7 +407,7 @@ const SideBar = ({keihis,setIs_create,setdetail_id, onButtonClick }) =>{
                                 </div>
                                 <div className="w-full right-0">
                                     {calculateTotalAmount(keihis[i].spend_request_item)}円
-                                   
+
                                 </div>
                             </div>
                         </div>

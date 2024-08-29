@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState, useRef, useEffect } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import useCalendar from '../hooks/useCalendar';
 import formatDateToJapanese from '../utils/formatDate';
@@ -122,6 +122,8 @@ const CreateSpendRequestFormComponent = () => {
         } catch (error) {
             console.error("Error:", error);
         }
+
+        window.location.reload();
     };
 
     return (
@@ -206,7 +208,7 @@ const CreateSpendRequestFormComponent = () => {
                                             
                                             <p>該当するイベントを押して直接入力ができます(未実装)</p>
                                             {events.map((event) => (
-                                                <button key={event.id} className="bg-blue-400 text-white" onClick={showOverlay}>{formatDateToJapanese(event.start)}, {event.summary}, {event.location}</button>
+                                                <button key={event.id} className="bg-blue-400 text-white" >{formatDateToJapanese(event.start)}, {event.summary}, {event.location}</button>
                                             ))}
                                         </div>
                                     )}

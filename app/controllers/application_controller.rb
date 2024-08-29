@@ -23,6 +23,7 @@ class ApplicationController < ActionController::API
         Rails.logger.info "Decoded JWT: #{decoded.inspect}"
 
         user_auth = UserAuthentication.find_by(uid: decoded["google_user_id"], provider: decoded["provider"])
+
         @current_user = user_auth.user if user_auth
 
         Rails.logger.info "User authentication record: #{user_auth.inspect}"

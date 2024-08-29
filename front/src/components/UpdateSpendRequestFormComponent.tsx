@@ -26,7 +26,7 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
     // const [selectedRequest, setSelectedRequest] = useState<SpendRequest | null>(null);
     const [spendRequest, setSpendRequest] = useState<SpendRequest>(spend_requests.spend_requests);
     console.log(spendRequest);
-    
+
 
     useEffect(() => {
         // console.log(spend_requests);
@@ -88,10 +88,11 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
             },
             body: JSON.stringify(payload)
         })
+        window.location.reload();
     };
     // if (!selectedRequest) return <div>Loading...</div>;
 
-    
+
     return (
         
         <form method="POST" onSubmit={handleSubmit} className="w-full h-full">
@@ -107,17 +108,18 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
                 <div className="w-1/2 p-4">
                     <label className="my-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
                     <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
-                    
+
                     <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
                     <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
 
-                {spendRequest.spend_request_item.map((item, index) => (
-                    <div key={index} className="">
-                        <label className="my-2 text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
-                        <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.date_of_use}/>
-                        
-                        <label className="my-2 text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
-                        <input type="number" name="amount" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.amount}/>
+                    {spendRequest.spend_request_item.map((item, index) => (
+                        <div key={index} className="flex flex-col mx-auto">
+                            <label className="my-2 text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
+                            <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.date_of_use}/>
+
+                            <label className="my-2 text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
+                            <input type="number" name="amount" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.amount}/>
+
 
                         <label className="my-2 text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
                         <input type="text" name="keihi_class" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.keihi_class}/>
