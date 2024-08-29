@@ -157,6 +157,14 @@ const CreateSpendRequestFormComponent = () => {
                 <div className="h-14 flex items-center text-3xl my-3 px-3 ">
                     新規作成
                 </div>
+                {/* モーダル表示ボタン */}
+                <button
+                    type="button"
+                    onClick={() => setShowModal(true)}
+                    className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 mx-auto rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                >
+                    Googleカレンダーから入力
+                </button>
                                 <label className="my-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
                                 <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
                                 
@@ -173,14 +181,7 @@ const CreateSpendRequestFormComponent = () => {
                                 <input type="file" name="image_save" accept="image/jpg, image/png" onChange={(e) => handleInputChange(0, e as ChangeEvent<HTMLInputElement>)} />
                             </div>
                             <div className="w-1/2">
-                                {/* モーダル表示ボタン */}
-                                <button
-                                    type="button"
-                                    onClick={() => setShowModal(true)}
-                                    className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 mx-auto rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                >
-                                    Googleカレンダーから入力
-                                </button>
+                                
                         
                         
                                 <div key={index} className="">
@@ -223,7 +224,7 @@ const CreateSpendRequestFormComponent = () => {
                         
                     </div>
                 </div>
-                <div className="h-12 w-full flex-none">
+                <div className="h-14 px-3 w-full flex-none">
                     <button className=" w-full bg-green-500 text-white rounded" type="submit">申請</button>
                 </div>
                 
