@@ -94,12 +94,18 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
 
 
     return (
-        <form method="POST" onSubmit={handleSubmit} className="w-full h-full flex">
-            <div className="w-1/2 p-4">
-                <input type="file" name="image_save" accept="image/jpg, image/png" onChange={(e) => handleInputChange(0, e as ChangeEvent<HTMLInputElement>)} />
+        
+        <form method="POST" onSubmit={handleSubmit} className="w-full h-full">
+            <div className="w-full h-full flex flex-col">
+            <div className="h-fit flex-none text-3xl p-2">
+                編集
             </div>
-            <div className="flex w-1/2 flex-col">
-                <div className="mx-auto w-full p-3">
+            <div className="w-full h-full flex-grow flex overflow-auto flex">
+                <div className="w-1/2 p-4">
+                {console.log("UpdateSpendRequestFormComponent")}
+                    <input type="file" name="image_save" accept="image/jpg, image/png" onChange={(e) => handleInputChange(0, e as ChangeEvent<HTMLInputElement>)} />
+                </div>
+                <div className="w-1/2 p-4">
                     <label className="my-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
                     <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
 
@@ -114,26 +120,28 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
                             <label className="my-2 text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
                             <input type="number" name="amount" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.amount}/>
 
-                            <label className="my-2 text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
-                            <input type="text" name="keihi_class" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.keihi_class}/>
 
-                            <label className="my-2 text-xl block text-gray-800">適格請求書番号</label>
-                            <input type="number" name="invoice_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.invoice_number}/>
+                        <label className="my-2 text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
+                        <input type="text" name="keihi_class" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.keihi_class}/>
 
-                            <label className="my-2 text-xl block text-gray-800">連絡請求番号</label>
-                            <input type="number" name="contact_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.contact_number}/>
+                        <label className="my-2 text-xl block text-gray-800">適格請求書番号</label>
+                        <input type="number" name="invoice_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.invoice_number}/>
 
-                            <label className="my-2 text-xl block text-gray-800">メモ</label>
-                            <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.memo}/>
+                        <label className="my-2 text-xl block text-gray-800">連絡請求番号</label>
+                        <input type="number" name="contact_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.contact_number}/>
 
-                            <button type="button" className="bg-red-500 text-white py-2 px-4 rounded my-5" onClick={() => handleRemoveItem(index)}>この項目を削除</button>
-                        </div>
-                    ))}
+                        <label className="my-2 text-xl block text-gray-800">メモ</label>
+                        <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.memo}/>
 
-                </div>
+                        <button type="button" className="bg-red-500 text-white py-2 px-4 rounded my-5" onClick={() => handleRemoveItem(index)}>この項目を削除</button>
+                    </div>
+                ))}
                 <button type="button" className="bg-blue-500 text-white py-2 px-4 rounded" onClick={handleAddItem}>項目追加</button>
-                <button className="bg-green-500 text-white py-2 px-4 rounded" type="submit">送信</button>
+            </div>   
             </div>
+             <button className="bg-green-500 text-white py-2 px-4 rounded" type="submit">送信</button>
+        </div>
+
         </form>
     )
 }

@@ -66,12 +66,12 @@ export const ContentsPage = () => {
 
       <div className="w-screen h-screen flex flex-col">
       <HeaderComponent />
-      <div className="flex-1 flex min-h-0 h-full">
+      <div className="flex-1 flex min-h-0">
         {/* <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/> */}
-        <div className="flex-1 h-full overflow-auto">
+    
           {/* <SpendRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/> */}
           <SpendRequestFormContainer className="h-full" />
-        </div>
+   
       </div>
     </div>
     );
