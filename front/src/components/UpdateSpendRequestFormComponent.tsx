@@ -157,7 +157,7 @@ const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendReque
                     </div>
                 </div>
                 <div className="h-12 w-full flex-none">
-                    <button className=" w-full bg-green-500 text-white py-2 px-4 rounded" type="submit">送信</button>
+                    <button className=" w-full bg-green-500 text-white rounded" type="submit">送信</button>
                 </div>
                 
             </div>
