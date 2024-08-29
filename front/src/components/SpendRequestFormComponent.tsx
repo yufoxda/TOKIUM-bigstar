@@ -3,6 +3,7 @@ import useCalendar from "../hooks/useCalendar";
 import formatDateToJapanese from "../utils/formatDate";
 import { useGetSpendItem } from "../hooks/useGetSpendItem";
 import { useAuth } from "../hooks/useAuth";
+import { ImageFormComponent } from "./ImageFormComponent";
 
 interface SpendRequestItem {
   date_of_use: string;
@@ -166,24 +167,16 @@ const SpendRequestForm = ({
       <div className="w-full h-full flex flex-col">
         <div className="h-fit flex-none text-3xl p-2">
           {is_create ? "新規作成" : "編集"}
+          <ImageFormComponent/>
         </div>
         <div className="w-full h-full flex-grow flex overflow-auto">
             <div className="w-full h-fit">
             {formData.spend_request_item.map((item, index) => (
               <div key={index} className="w-full h-full flex">
-                
-                <div className="w-1/2 p-4">
-                  <input
-                    type="file"
-                    name="image_save"
-                    accept="image/jpg, image/png"
-                    onChange={handleInputChange}
-                    data-item-id={index}
-                  />
+                <div className="w-1/2 p-4">                    
                 </div>
                 <div className="w-1/2 p-4">
                 <div w-full flex flex-row>
-  
                     <div>{index + 1}</div>
                 </div>
                   <div className="my-2">
