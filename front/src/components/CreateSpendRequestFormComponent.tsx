@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import useCalendar from '../hooks/useCalendar';
 import formatDateToJapanese, { formatDateToYYYYMMDD } from '../utils/formatDate';
+import parseDescription from '../utils/parseDescription';
 
 interface SpendRequestItem {
     date_of_use: string,
@@ -20,6 +21,7 @@ interface SpendRequest {
     purpose: string,
     spend_request_item: SpendRequestItem[]
 }
+
 
 const CreateSpendRequestFormComponent = () => {
     const { currentUser, token } = useAuth();
@@ -91,15 +93,17 @@ const CreateSpendRequestFormComponent = () => {
 
     const handleCalenderEventClick = (event: any) => {
         const updatedItems = [...spendRequest.spend_request_item];
+        const parsed = parseDescription(event)
+        console.log(parsed)
 
         // 最後のアイテムを更新
         updatedItems[updatedItems.length - 1] = {
             ...updatedItems[updatedItems.length - 1],
             date_of_use: formatDateToYYYYMMDD(event.start) || "",
-            amount: 0,
-            keihi_class: "",
-            invoice_number: null,
-            contact_number: 0,
+            amount: parsed.amount,
+            keihi_class: parsed.keihi_class,
+            invoice_number: parsed.invoice_number,
+            contact_number: parsed.contact_number,
             memo: event.description || "",
             image_save: null,
         };
@@ -107,8 +111,8 @@ const CreateSpendRequestFormComponent = () => {
         // 更新された `spend_request_item` 配列をセット
         setSpendRequest({
             ...spendRequest,
-            spend_to: event.location || "",
-            purpose: event.summary || "",
+            spend_to: parsed.spend_to || "",
+            purpose: parsed.purpose || "",
             spend_request_item: updatedItems,
         });
         setShowModal(false);
