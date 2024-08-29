@@ -96,8 +96,8 @@ const CreateSpendRequestFormComponent = () => {
           date_of_use: "",
           amount: 0,
           keihi_class: "",
-          invoice_number: null,
-          contact_number: 0,
+          invoice_number: "",
+          contact_number: "",
           memo: "",
           image_save: null,
         },
@@ -242,6 +242,10 @@ const CreateSpendRequestFormComponent = () => {
                   {...register("amount", { min: 0 })}
                   onChange={(e) => {
                     const value = e.target.value;
+                    // マイナスの値が入力された場合は空文字に設定
+                    if (value < 0) {
+                      e.target.value = "";
+                    }
                     handleInputChange(index, e);
                   }}
                   value={item.amount}
