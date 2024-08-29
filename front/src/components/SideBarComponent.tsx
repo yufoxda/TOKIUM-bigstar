@@ -351,7 +351,9 @@ function formatCreatedAt(created_at: string): string {
 const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
   const [showPending, setShowPending] = useState(false);
   const filteredKeihis = showPending
-    ? keihis.filter((item) => item.status === "pending")
+    ? keihis.filter(
+        (item) => item.status === "pending" || item.status === "wait"
+      )
     : keihis;
   const to_detail = (id) => {
     console.log(id);
