@@ -18,6 +18,7 @@ namespace :api do
     delete 'keihi/delete_item/:id', to: 'keihi#delete_item'
     put 'keihi/update/:id' , to: 'keihi#update'
     patch 'keihi/change_status', to: 'keihi#change_status'
+    get "keihi/export/csv", to: "keihi#export_csv"
     get 'calendar/events/', to: 'google_calendars#events'
   end
 end
