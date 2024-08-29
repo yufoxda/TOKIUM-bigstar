@@ -377,8 +377,8 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
           新規作成
         </button>
       </div>
-      <div className="h-full overflow-hidden">
-        <div className="overflow-y-auto h-full space-y-5 font-medium">
+      <div className="h-full pb-3 overflow-hidden ">
+        <div className="pr-0.5 overflow-y-auto overflow-x-hidden h-full space-y-5 font-medium rounded">
           {filteredKeihis.map((item) => (
             <button
               type="button"
