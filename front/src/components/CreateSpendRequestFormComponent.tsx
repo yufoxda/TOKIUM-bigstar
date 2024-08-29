@@ -1,10 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import useCalendar from '../hooks/useCalendar';
-import formatDateToJapanese from '../utils/formatDate';
 import { ImageFormComponent } from './ImageFormComponent';
-
-// import formatDateToJapanese, { formatDateToYYYYMMDD } from '../utils/formatDate';
+import formatDateToJapanese, { formatDateToYYYYMMDD } from '../utils/formatDate';
 
 interface SpendRequestItem {
     date_of_use: string,
