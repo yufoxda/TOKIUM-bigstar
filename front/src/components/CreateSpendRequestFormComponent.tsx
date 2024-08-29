@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import useCalendar from '../hooks/useCalendar';
-import formatDateToJapanese from '../utils/formatDate';
+import formatDateToJapanese, { formatDateToYYYYMMDD } from '../utils/formatDate';
 
 interface SpendRequestItem {
     date_of_use: string,
@@ -89,6 +89,31 @@ const CreateSpendRequestFormComponent = () => {
         });
     };
 
+    const handleCalenderEventClick = (event: any) => {
+        const updatedItems = [...spendRequest.spend_request_item];
+
+        // 最後のアイテムを更新
+        updatedItems[updatedItems.length - 1] = {
+            ...updatedItems[updatedItems.length - 1],
+            date_of_use: formatDateToYYYYMMDD(event.start) || "",
+            amount: 0,
+            keihi_class: "",
+            invoice_number: null,
+            contact_number: 0,
+            memo: event.description || "",
+            image_save: null,
+        };
+    
+        // 更新された `spend_request_item` 配列をセット
+        setSpendRequest({
+            ...spendRequest,
+            spend_to: event.location || "",
+            purpose: event.summary || "",
+            spend_request_item: updatedItems,
+        });
+        setShowModal(false);
+    }
+
     const handleRemoveItem = (index: number) => {
         const values = [...spendRequest.spend_request_item];
         if (values.length > 1) {
@@ -147,30 +172,30 @@ const CreateSpendRequestFormComponent = () => {
                         </button>
                         
                         <label className="my-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
-                        <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} />
+                        <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
                         
                         <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
-                        <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} />
+                        <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
 
                         {spendRequest.spend_request_item.map((item, index) => (
                             <div key={index} className="">
                                 <label className="my-2 text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
-                                <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
+                                <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.date_of_use}/>
                                 
                                 <label className="my-2 text-xl block text-gray-800">金額<span className="text-red-600 text-base">*</span></label>
-                                <input type="number" name="amount" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
+                                <input type="number" name="amount" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.amount} />
 
                                 <label className="my-2 text-xl block text-gray-800">経費科目<span className="text-red-600 text-base">*</span></label>
-                                <input type="text" name="keihi_class" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} />
+                                <input type="text" name="keihi_class" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.keihi_class}/>
 
                                 <label className="my-2 text-xl block text-gray-800">適格請求書番号</label>
-                                <input type="number" name="invoice_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
+                                <input type="number" name="invoice_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.invoice_number} />
 
                                 <label className="my-2 text-xl block text-gray-800">連絡請求番号</label>
-                                <input type="number" name="contact_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
+                                <input type="number" name="contact_number" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.contact_number}/>
 
                                 <label className="my-2 text-xl block text-gray-800">メモ</label>
-                                <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} />
+                                <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.memo}/>
 
                                 <button type="button" className="bg-red-500 text-white py-2 px-4 rounded my-5" onClick={() => handleRemoveItem(index)}>この項目を削除</button>
                             </div>
@@ -206,9 +231,10 @@ const CreateSpendRequestFormComponent = () => {
                                     { (
                                         <div>
                                             
-                                            <p>該当するイベントを押して直接入力ができます(未実装)</p>
+                                            <p>該当するイベントを押して直接入力ができます</p>
+                                            <p>複数日に渡って予定が入っている場合は開始日が入力されます</p>
                                             {events.map((event) => (
-                                                <button key={event.id} className="bg-blue-400 text-white" >{formatDateToJapanese(event.start)}, {event.summary}, {event.location}</button>
+                                                <button key={event.id} className="bg-blue-400 text-white" onClick={() => handleCalenderEventClick(event)}>{formatDateToJapanese(event.start)}, {event.summary} {event.location && `, (${event.location})`}</button>
                                             ))}
                                         </div>
                                     )}
@@ -222,14 +248,14 @@ const CreateSpendRequestFormComponent = () => {
                                     >
                                         閉じる
                                     </button>
-                                    <button
+                                    {/* <button
                                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={() => setShowModal(false)}
                                     >
                                         自動入力
                                         
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         </div>

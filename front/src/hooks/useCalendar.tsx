@@ -37,7 +37,10 @@ const useCalendar = () => {
                         user_id: currentUser.id
                     }
                 });
-                setEvents(response.data);
+                const sortedEvents = response.data.sort((a: any, b: any) => {
+                    return new Date(b.start).getTime() - new Date(a.start).getTime();
+                });
+                setEvents(sortedEvents);
             } catch (error) {
                 setError(error);
             } finally {
