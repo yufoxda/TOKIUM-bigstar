@@ -1,31 +1,35 @@
-
-import { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 interface SpendRequestItem {
-    date_of_use: string,
-    amount: number,
-    keihi_class: string,
-    invoice_number: number | null,
-    contact_number: number,
-    memo: string,
-    image_save: any
+  date_of_use: string;
+  amount: number;
+  keihi_class: string;
+  invoice_number: number | null;
+  contact_number: number;
+  memo: string;
+  image_save: any;
 }
 
 interface SpendRequest {
-    user_id: string,
-    status: string,
-    spend_to: string,
-    purpose: string,
-    spend_request_item: SpendRequestItem[]
+  user_id: string;
+  status: string;
+  spend_to: string;
+  purpose: string;
+  spend_request_item: SpendRequestItem[];
 }
 
-const UpdateSpendRequestFormComponent = (spend_requests:SpendRequest, spendRequestId:string) => {
-    const { currentUser, token } = useAuth();
-    const API_URL = "http://localhost:3000/api/v1";
-    // const [selectedRequest, setSelectedRequest] = useState<SpendRequest | null>(null);
-    const [spendRequest, setSpendRequest] = useState<SpendRequest>(spend_requests.spend_requests);
-    console.log(spendRequest);
+const UpdateSpendRequestFormComponent = (
+  spend_requests: SpendRequest,
+  spendRequestId: string
+) => {
+  const { currentUser, token } = useAuth();
+  const API_URL = "http://localhost:3000/api/v1";
+  // const [selectedRequest, setSelectedRequest] = useState<SpendRequest | null>(null);
+  const [spendRequest, setSpendRequest] = useState<SpendRequest>(
+    spend_requests.spend_requests
+  );
+  console.log(spendRequest);
 
 
     useEffect(() => {

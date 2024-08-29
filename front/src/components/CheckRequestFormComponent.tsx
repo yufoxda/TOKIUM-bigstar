@@ -7,7 +7,6 @@ import { useCsrf } from "../hooks/useCsrf";
 
 const API_URL = "http://localhost:3000/api/v1";
 
-
 interface SpendRequestItem {
   date_of_use: string;
   amount: number;
@@ -62,13 +61,13 @@ const SpendRequestForm = ({
     if (spend) {
       setFormData((prevData) => ({
         ...prevData,
-        
+
         spend_to: spend.spend_to || prevData.spend_to,
         purpose: spend.purpose || prevData.purpose,
         spend_request_item: spend.spend_request_item.map((item) => {
-            const { ...rest } = item;  // idを取り除く
-            return rest;  // 残りのプロパティだけを返す
-          }),
+          const { ...rest } = item; // idを取り除く
+          return rest; // 残りのプロパティだけを返す
+        }),
       }));
     }
   }, [spend]);
@@ -112,7 +111,9 @@ const SpendRequestForm = ({
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/keihi/${is_create ? "create" : "update/" +  detail_id}`,
+        `http://localhost:3000/api/v1/keihi/${
+          is_create ? "create" : "update/" + detail_id
+        }`,
         {
           method: is_create ? "POST" : "PUT",
           headers: {
@@ -125,14 +126,15 @@ const SpendRequestForm = ({
       if (response.ok) {
         console.log("Request succeeded");
       } else {
-        console.log("Request failed", JSON.stringify({ spend_request: formData }));
-
+        console.log(
+          "Request failed",
+          JSON.stringify({ spend_request: formData })
+        );
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  
 
   const addCounter = () => {
     setCount((prevCount) => prevCount + 1);
@@ -157,7 +159,7 @@ const SpendRequestForm = ({
 
   const subCounter = () => {
     if (count > 1) {
-      setCount((prevCount) => prevCount< - 1);
+      setCount((prevCount) => prevCount < -1);
       setFormData((prevData) => {
         const updatedItems = [...prevData.spend_request_item];
         updatedItems.pop();
@@ -169,20 +171,23 @@ const SpendRequestForm = ({
     // 経費データの状態をstatus_toに変更する
     console.log("handleChangeStatus ok");
     console.log(detail_id);
-    fetch(`${API_URL}/keihi/change_status?id=${detail_id}&status=${status_to}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "X-CSRF-Token": csrfToken,
-        "Content-Type": "application/json",
-      },
-    }).catch((error) => {
+    fetch(
+      `${API_URL}/keihi/change_status?id=${detail_id}&status=${status_to}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-CSRF-Token": csrfToken,
+          "Content-Type": "application/json",
+        },
+      }
+    ).catch((error) => {
       console.error("Error fetching current user", error);
     });
   };
 
   return (
-    <form onSubmit={handleSubmit } className="w-full h-full">
+    <form onSubmit={handleSubmit} className="w-full h-full">
       <div className="w-full h-full flex flex-col">
         <div className="h-fit flex-none text-3xl p-2">
           {is_create ? "新規作成" : "編集"}
@@ -205,7 +210,7 @@ const SpendRequestForm = ({
                     <label className="text-xl block text-gray-800">
                       利用日<span className="text-red-600 text-base">*</span>
                     </label>
-                    {console.log(formData, index,spend)}
+                    {console.log(formData, index, spend)}
                     <input
                       name="date_of_use"
                       type="date"
@@ -272,7 +277,7 @@ const SpendRequestForm = ({
                   </div>
                   <div className="my-2">
                     <label className="text-xl block text-gray-800">
-                      的確請求書番号
+                      適格請求書番号
                     </label>
                     <input
                       type="number"
@@ -332,22 +337,21 @@ const SpendRequestForm = ({
         </div>
       </div>
       <div className="h-12 flex-none flex items-center justify-end bg-gray-100 px-5">
-          <div className="flex gap-4 px-2">
-            <button
-              onClick={() => handleChangeStatus("reject")}
-              className="bg-red-500 text-white px-4 py-2"
-            >
-              却下
-            </button>
-            <button
-              onClick={() => handleChangeStatus("accept")}
-              className="bg-green-500 text-white px-4 py-2"
-            >
-              承認
-            </button>
-          </div>
+        <div className="flex gap-4 px-2">
+          <button
+            onClick={() => handleChangeStatus("reject")}
+            className="bg-red-500 text-white px-4 py-2"
+          >
+            却下
+          </button>
+          <button
+            onClick={() => handleChangeStatus("accept")}
+            className="bg-green-500 text-white px-4 py-2"
+          >
+            承認
+          </button>
         </div>
-      
+      </div>
     </form>
   );
 };
