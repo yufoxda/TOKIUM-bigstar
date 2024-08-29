@@ -9,7 +9,7 @@ class GoogleCalendarService
     @service.authorization = google_credentials_for(user)
   end
 
-  def fetch_events(time_min: (DateTime.now-30).iso8601, time_max: DateTime.now.iso8601, max_results: 10)
+  def fetch_events(time_min: (DateTime.now-30).iso8601, time_max: DateTime.now.iso8601, max_results: 1000)
     calendar_id = 'primary'
     events = @service.list_events(calendar_id,
                                   max_results: max_results,
