@@ -43,6 +43,9 @@ const AuthTableComponent = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredSpend.slice(indexOfFirstItem, indexOfLastItem);
 
+  const calculateTotalAmount = (items: SpendRequestItem[]): number =>
+    items.reduce((total, item) => total + item.amount, 0);
+
   const changeStatus = (spend_id: string, status: string) => {
     fetch(`${API_URL}/keihi/change_status?id=${spend_id}&status=${status}`, {
       method: "PATCH",
@@ -139,6 +142,18 @@ const AuthTableComponent = () => {
           <p className="text-lg font-bold">
             目的: <span className="font-normal">{item.purpose}</span>
           </p>
+          <div className="text-lg font-bold mt-4">
+            合計金額:{" "}
+            <span
+              className={`font-normal ${
+                calculateTotalAmount(item.spend_request_item) > 100000
+                  ? "text-red-600"
+                  : ""
+              }`}
+            >
+              {calculateTotalAmount(item.spend_request_item)}円
+            </span>
+          </div>
 
           <p className="text-lg font-bold mt-4">申請項目: </p>
           <table className="min-w-full bg-white border border-gray-200 mt-2">

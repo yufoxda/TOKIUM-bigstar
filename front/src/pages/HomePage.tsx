@@ -39,14 +39,11 @@ const HomePage = () => {
       <div className="flex w-screen h-screen items-center justify-center">
       <div className="h-min rounded-xl border border-gray-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-900">
       <div className="p-4 m-10">
-        <div className="text-center my-4">
+        <div className="text-center mb-9">
           <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Sign in</h1>
-          <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
-            Don't have an account yet?
-            <a className="font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none dark:text-blue-500" href="../examples/html/signup.html"> Sign up here </a>
-          </p>
+          BIG STAR 経費精算管理
         </div>
-    
+      
         <div className="my-4 flex flex-col gap-y-2.5">
           <button type="button" onClick={handleGoogleAuth} className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
             <svg className="h-auto w-4" width="46" height="47" viewBox="0 0 46 47" fill="none">

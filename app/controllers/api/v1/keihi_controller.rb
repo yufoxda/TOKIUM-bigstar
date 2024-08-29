@@ -72,14 +72,15 @@ class Api::V1::KeihiController < ApplicationController
       )
       # 関連するSpendRequestItemsを作成
       spend_request_params[:spend_request_item].each do |item|
-        Rails.logger.info("items:")
-        Rails.logger.info(item)
+        # ハイフンを削除して数値を文字列として結合
+        formatted_contact_number = item[:contact_number].to_s.delete('-')
+  
         spend_request.spend_request_item.create!(
           date_of_use: item[:date_of_use],
           amount: item[:amount],
           keihi_class: item[:keihi_class],
           invoice_number: item[:invoice_number],
-          contact_number: item[:contact_number],
+          contact_number: formatted_contact_number,
           memo: item[:memo],
           image_save: item[:image_save]
         )

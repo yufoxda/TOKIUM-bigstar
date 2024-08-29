@@ -333,7 +333,7 @@ function calculateTotalAmount(items: SpendRequestItem[]): number {
   return items.reduce((total, item) => total + item.amount, 0);
 }
 
-/* created_atをフォーマットする*/
+/* created_atをフォーマットする */
 function formatCreatedAt(created_at: string): string {
   const datas = created_at.split("-");
   return datas[0] + "年" + datas[1] + "月" + datas[2].slice(0, 2) + "日";
@@ -360,11 +360,24 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
     setdetail_id(null);
   };
 
+  // statusに応じたクラス名を決定する関数
+  const getStatusClassName = (status: string) => {
+    switch (status) {
+      case "approve":
+        return "bg-green-600"; // 緑
+      case "reject":
+        return "bg-red-600"; // 赤
+      default:
+        return ""; // デフォルト色
+    }
+  };
+
   return (
     <div className="w-80 px-3 h-full bg-gray-200 flex flex-col">
-      <div className="h-fit my-5 w-full flex justify-center">
-        <div className="flex items-center ml-4">
-          <label className="inline-flex items-center">
+        <button type="button" onClick={to_create} className="bg-yellow-300 w-64 h-14 my-3 mx-auto">
+          新規作成
+        </button>
+      <label className="inline-flex items-center">
             <input
               type="checkbox"
               className="form-checkbox"
@@ -373,24 +386,17 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
             />
             <span className="ml-2 text-gray-700">未承認のみ</span>
           </label>
-        </div>
-        <button
-          type="button"
-          onClick={to_create}
-          className="bg-yellow-300 w-64"
-        >
-          新規作成
-        </button>
-      </div>
-      <div className="h-full overflow-hidden">
-        <div className="overflow-y-auto h-full space-y-5 font-medium">
+      <div className="h-full pb-3 overflow-hidden ">
+        <div className="pr-0.5 overflow-y-auto overflow-x-hidden h-full space-y-5 font-medium rounded">
           {filteredKeihis.map((item) => (
             <button
               type="button"
               key={item.id}
               id={item.id}
               onClick={() => to_detail(item.id)}
-              className="h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent"
+              className={`h-28 w-full flex justify-between items-center shadow rounded cursor-pointer border border-transparent ${getStatusClassName(
+                item.status
+              )}`}
             >
               <div className="w-full flex flex-col">
                 <div className="w-full flex flex-row">
