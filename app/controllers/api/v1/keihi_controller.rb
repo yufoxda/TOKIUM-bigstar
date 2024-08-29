@@ -4,8 +4,16 @@ class Api::V1::KeihiController < ApplicationController
   # GET /api/v1/keihi/index
   # すべての申請を取得する
   def index
-    spend_requests = SpendRequest.includes(:spend_request_item).all
-    render json: spend_requests.as_json(include: :spend_request_item), status: :ok
+    spend_requests = SpendRequest.includes(:spend_request_item, :user).all
+    spend_requests = spend_requests.order(created_at: :asc)
+
+    spend_requests_with_usernames = spend_requests.map do |spend_request|
+      spend_request.as_json(include: :spend_request_item).merge(
+        user_name: spend_request.user.name
+      )
+    end
+
+    render json: spend_requests_with_usernames, status: :ok
   rescue => e
     render json: { error: e.message }, status: :internal_server_error
   end
@@ -123,7 +131,7 @@ class Api::V1::KeihiController < ApplicationController
       :user_id, :status, :spend_to, :purpose,
       spend_request_item: [:id, :date_of_use, :amount, :keihi_class, :invoice_number, :contact_number, :memo, :image_save]
     )
-    
+
     SpendRequest.transaction do
       # SpendRequest を更新
       @spend_request = SpendRequest.find(params[:id])
@@ -133,7 +141,7 @@ class Api::V1::KeihiController < ApplicationController
         spend_to: spend_request_params[:spend_to],
         purpose: spend_request_params[:purpose]
       )
-  
+
       # 関連する SpendRequestItems を更新
       spend_request_params[:spend_request_item].each do |item_params|
         item = SpendRequestItem.find(item_params[:id])
@@ -148,7 +156,7 @@ class Api::V1::KeihiController < ApplicationController
         )
       end
     end
-    
+
     # 成功時のレスポンス
     render json: { message: 'Spend request updated successfully' }, status: :ok
   rescue ActiveRecord::RecordNotFound => e
@@ -158,7 +166,7 @@ class Api::V1::KeihiController < ApplicationController
     # バリデーションエラーが発生した場合のレスポンス
     render json: { error: e.message }, status: :unprocessable_entity
   end
-  
+
 
 
   def change_status
@@ -177,10 +185,10 @@ class Api::V1::KeihiController < ApplicationController
   rescue => e
     render json: { error: e.message }, status: :internal_server_error
   end
-  
+
 
   private
-  
+
   def spend_request_params
     params.require(:spend_request).permit(
       :user_id, :status, :spend_to, :purpose,
