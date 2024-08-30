@@ -37,17 +37,19 @@ const HomePage = () => {
       // </div>
       <div className="flex w-screen h-screen items-center justify-center">
         <div className="h-min rounded-xl border border-gray-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-900">
-          <div className="top-10 flex justify-center w-full">
-            <img src={logo} alt="Logo" className="h-48" />{" "}
-            {/* ロゴを大きくする */}
-          </div>
+          
           <div className="p-4 m-10">
             <div className="text-center mb-9">
               <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
                 Sign in
               </h1>
+              <div className="top-10 flex justify-center w-full">
+            <img src={logo} alt="Logo" className="h-48" />{" "}
+            {/* ロゴを大きくする */}
+          </div>
               BIG STAR 経費精算管理
             </div>
+            
 
             <div className="my-4 flex flex-col gap-y-2.5">
               <button
