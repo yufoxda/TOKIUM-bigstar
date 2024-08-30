@@ -134,10 +134,10 @@ const CreateSpendRequestFormComponent = () => {
     updatedItems[updatedItems.length - 1] = {
       ...updatedItems[updatedItems.length - 1],
       date_of_use: formatDateToYYYYMMDD(event.start) || "",
-      amount: parsed.amount,
-      keihi_class: parsed.keihi_class,
-      invoice_number: parsed.invoice_number,
-      contact_number: parsed.contact_number,
+      amount: parsed.amount || 0,
+      keihi_class: parsed.keihi_class || 0,
+      invoice_number: parsed.invoice_number || null,
+      contact_number: parsed.contact_number || null,
       memo: event.description || "",
     };
 
