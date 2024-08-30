@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useExportCsv } from "../hooks/useExportCsv";
 
 interface Props {
   keihis: SpendRequest[];
@@ -20,313 +21,7 @@ interface SpendRequest {
   spendRequestItems: SpendRequestItem[]; // spend_request_item（配列型でSpendRequestItemオブジェクトのリスト）
 }
 
-/* モックデータ */
-const itemList: SpendRequest[] = [
-  {
-    userId: "A0001",
-    status: "申請中", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "電車", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "札幌行きタクシー", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 2000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-  {
-    userId: "A0001",
-    status: "承認待ち", // status（文字列型。必要に応じてリテラル型や列挙型にすることも可能）
-    spendTo: "ハワイ行き飛行機", // spend_to（文字列型。具体的な内容に応じて変更するかもしれません）
-    createdAt: "2024-7-2", // created_at（ISO 8601形式の文字列として表現される場合）
-    updatedAt: "2024-7-2", // updated_at（ISO 8601形式の文字列として表現される場合）
-    spendRequestItems: [
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "行き",
-      },
-      {
-        amount: 1000,
-        usageDate: "2024-8-30",
-        expenseCategory: "帰り",
-      },
-    ],
-  },
-];
+
 
 /* 経費合計の計算をする関数 */
 function calculateTotalAmount(items: SpendRequestItem[]): number {
@@ -341,6 +36,7 @@ function formatCreatedAt(created_at: string): string {
 
 const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
   const [showPending, setShowPending] = useState(false);
+  const {exportCsv} = useExportCsv();
 
   const filteredKeihis = showPending
     ? keihis.filter(
@@ -377,7 +73,7 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
         <button type="button" onClick={to_create} className="bg-yellow-300 w-64 h-14 my-3 mx-auto">
           新規作成
         </button>
-      <label className="inline-flex items-center">
+        <label className="inline-flex items-center">
             <input
               type="checkbox"
               className="form-checkbox"
@@ -386,7 +82,8 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
             />
             <span className="ml-2 text-gray-700">未承認のみ</span>
           </label>
-      <div className="h-full pb-3 overflow-hidden ">
+
+      <div className="h-full overflow-hidden ">
         <div className="pr-0.5 overflow-y-auto overflow-x-hidden h-full space-y-5 font-medium rounded">
           {filteredKeihis.map((item) => (
             <button
@@ -416,6 +113,15 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
           ))}
         </div>
       </div>
+      <button className="bg-gray-300  w-64 h-14 my-3 mx-auto flex items-center flex-none" onClick={exportCsv}>
+          <div className="w-fit mx-auto inline-flex items-center">
+            <svg class="w-6 h-6 text-gray-800 dark:text-white bg-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 10V4a1 1 0 0 0-1-1H9.914a1 1 0 0 0-.707.293L5.293 7.207A1 1 0 0 0 5 7.914V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2M10 3v4a1 1 0 0 1-1 1H5m5 6h9m0 0-2-2m2 2-2 2"/>
+            </svg>
+            <span className="">csv出力</span>
+          </div>
+          
+        </button>
     </div>
   );
 };

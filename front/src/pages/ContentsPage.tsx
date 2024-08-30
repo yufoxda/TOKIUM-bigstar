@@ -64,7 +64,7 @@ export const ContentsPage = () => {
     // userの時の
     return (
 
-      <div className="w-screen h-screen flex flex-col">
+      <div className="w-screen min-w-fit h-screen overflow-y-hidden flex flex-col">
       <HeaderComponent />
       <div className="flex-1 flex min-h-0">
           <SpendRequestFormContainer className="h-full" />
