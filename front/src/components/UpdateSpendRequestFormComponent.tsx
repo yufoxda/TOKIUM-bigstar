@@ -113,9 +113,8 @@ const UpdateSpendRequestFormComponent = (
                 <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
                 
                 <div className="w-full h-full flex-grow overflow-auto px-3">
-                    <div className="w-full h-full">
+                    <div className="w-full h-full bg-red-300">
                         {spendRequest.spend_request_item.map((item, index) => (
-                        <>
                             <div key={index} className="w-full h-fit flex">
                                 <div className="w-1/2 mt-4">
                                     <ImagePreviewComponent base64image={item.image_save}/>
@@ -140,24 +139,21 @@ const UpdateSpendRequestFormComponent = (
 
                                     <label className="my-2 text-xl block text-gray-800">メモ</label>
                                     <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.memo}/>
-            
+                                    <button type="button" className="w-full px-4 rounded bg-white" onClick={() => handleRemoveItem(index)}>
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
-                            <button type="button" className="w-full px-4 rounded bg-white" onClick={() => handleRemoveItem(index)}>
-                                <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                </svg>
-                            </button>
-                        </>    
                         ))}             
-                        </div>
-                        <button type="button" className="bg-white py-2 px-4 rounded w-full" onClick={handleAddItem}>
-                            <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                            </svg>
-                        </button>
-                        
                     </div>
+                    <button type="button" className="bg-white py-2 px-4 rounded w-full" onClick={handleAddItem}>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                        </svg>
+                    </button>
+                </div>
                 </div>
                 <div className="h-12 w-full flex-none">
                     <button className=" w-full bg-green-500 text-white rounded" type="submit">変更</button>
