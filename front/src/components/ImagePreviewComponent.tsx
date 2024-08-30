@@ -3,10 +3,10 @@ import React from "react";
 
 export const ImagePreviewComponent =({base64image})=> {
     return(
-        <div>
+        <div className="w-5/6">
             {base64image ? 
             (<div className="w-full h-96">
-                <img src={base64image} className="w-full max-h-96" alt="画像はありません" />
+                <img src={base64image} className="w-full max-h-96 object-contain" alt="画像はありません" />
             </div>) :
             <div className="w-full h-96 bg-gray-300 border-dashed border-4 border-gray-600 flex justify-center items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-file-earmark-image" viewBox="0 0 16 16">

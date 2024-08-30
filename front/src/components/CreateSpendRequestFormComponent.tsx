@@ -95,7 +95,8 @@ const CreateSpendRequestFormComponent = () => {
   const handleInputImage = (e: any,index: number) => {
     const file = e.target.files[0]; // 一つのinputタグあたりに1つまで画像を許容
     if (!file){
-        return
+      //画像ファイルがない場合は何もしない
+      return
     }
 
     const reader= new FileReader();
@@ -168,9 +169,6 @@ const CreateSpendRequestFormComponent = () => {
     }
   };
 
-    
-
-  
 
   const onSubmit: SubmitHandler<SpendRequest> = async (data) => {
     const payload = { spend_request: spendRequest };
@@ -198,7 +196,6 @@ const CreateSpendRequestFormComponent = () => {
     window.location.reload();
   };
 
-    //　ーーーーー清水の変更 end ーーーーー
 
   return (
     <form method="POST" onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
@@ -216,9 +213,8 @@ const CreateSpendRequestFormComponent = () => {
           <div className="w-full h-full">
             {spendRequest.spend_request_item.map((item, index) => (
               <div key={index} className="w-full h-fit flex">
-                <div className="w-1/2">
-                  {/* <ImageFormComponent /> */}
-                  <input type="file" accept="image/jpeg, image/png" className="left-2 mt-2" onChange={(e)=>handleInputImage(e,index)}/>
+                <div className="w-1/2 flex flex-col items-center">
+                  <input type="file" accept="image/jpeg, image/png" className="left-2 mt-4 mb-2" onChange={(e)=>handleInputImage(e,index)}/>
                   <ImagePreviewComponent base64image={item.image_save}/>
                 </div>
                 <div className="w-1/2">

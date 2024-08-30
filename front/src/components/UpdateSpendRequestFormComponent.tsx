@@ -56,33 +56,6 @@ const UpdateSpendRequestFormComponent = (
         setSpendRequest({ ...spendRequest, spend_request_item: values });
     };
 
-    // inputタグから画像ファイルを取得し、base64にエンコードしてspendRequestに保存する
-    const handleInputImage = (e: any,index: number) => {
-        console.log("handleInputImageFileが呼ばれました！")
-        const file = e.target.files[0]; // 一つのinputタグあたりに1つまで画像を許容
-
-        if (!file){
-            return
-        }
-
-        const reader= new FileReader();
-        reader.onloadend =()=>{
-            // ブロック内の処理は、画像が読み込まれた後に実行される
-            const base64image = reader.result as string;
-            
-            setSpendRequest((prevState)=>{
-                const updatedItems=[...prevState.spend_request_item];
-                updatedItems[index].image_save=base64image;
-                return {...prevState,spend_request_item: updatedItems};
-            })
-            console.log("onloadendの中が終了")
-            console.log(typeof(base64image))
-            console.log(base64image)
-            console.log(spendRequest.spend_request_item[index].image_save)
-        }
-        reader.readAsDataURL(file);
-
-    };
 
     const handleAddItem = () => {
         setSpendRequest({
