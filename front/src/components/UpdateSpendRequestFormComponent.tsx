@@ -120,7 +120,7 @@ const UpdateSpendRequestFormComponent = (
                     <>
                     <div className="w-full h-fit flex-row lg:flex">
                     <div className="lg:w-1/2 h-full flex-none sticky top-0 lg:pr-1.5">
-                        <input type="file" accept="image/jpeg, image/png" onChange={(e)=>handleInputImage(e,index)}/>
+                        {/* <input type="file" accept="image/jpeg, image/png" onChange={(e)=>handleInputImage(e,index)}/> */}
                         <ImagePreviewComponent base64image={item.image_save}/>
                     </div>
                     <div className="lg:w-1/2 flex-none lg:pr-1 lg:pl-1.5">
@@ -145,11 +145,11 @@ const UpdateSpendRequestFormComponent = (
                                     <label className="my-2 text-xl block text-gray-800">メモ</label>
                                     <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.memo}/>
                                 
-                                <button type="button" className="w-full px-4 rounded bg-white" onClick={() => handleRemoveItem(index)}>
+                                {/* <button type="button" className="w-full px-4 rounded bg-white" onClick={() => handleRemoveItem(index)}>
                                     <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                     </svg>
-                                </button>
+                                </button> */}
                           
                                 </div>
                     </div>
@@ -158,11 +158,11 @@ const UpdateSpendRequestFormComponent = (
                     </>
                             ))}
                             
-                        <button type="button" className="bg-white py-2 px-4 rounded w-full" onClick={handleAddItem}>
+                        {/* <button type="button" className="bg-white py-2 px-4 rounded w-full" onClick={handleAddItem}>
                         <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                         </svg>
-                    </button>
+                        </button> */}
                 </div>
               </div>
               <div className="h-fit flex-none my-3">
