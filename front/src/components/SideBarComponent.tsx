@@ -70,7 +70,7 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
 
   return (
     <div className="w-80 px-3 h-full bg-gray-200 flex flex-col">
-        <button type="button" onClick={to_create} className="bg-yellow-300 w-64 h-14 my-3 mx-auto">
+        <button type="button" onClick={to_create} className="flex-none bg-yellow-300 w-64 h-14 my-3 mx-auto">
           新規作成
         </button>
         <label className="inline-flex items-center">
