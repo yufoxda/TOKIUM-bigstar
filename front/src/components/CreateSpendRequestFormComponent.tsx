@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import useCalendar from '../hooks/useCalendar';
 import formatDateToJapanese, { formatDateToYYYYMMDD } from '../utils/formatDate';
 import parseDescription from '../utils/parseDescription';
-import { ImageFormComponent } from './ImageFormComponent';
+import { ImagePreviewComponent } from './ImagePreviewComponent';
 
 interface SpendRequestItem {
   date_of_use: string;
@@ -75,6 +75,29 @@ const CreateSpendRequestFormComponent = () => {
     }));
   };
 
+  // inputタグから画像ファイルを取得し、base64にエンコードしてspendRequestに保存する
+  const handleInputImage = (e: any,index: number) => {
+    const file = e.target.files[0]; // 一つのinputタグあたりに1つまで画像を許容
+    if (!file){
+      //画像ファイルがない場合は何もしない
+      return
+    }
+
+    const reader= new FileReader();
+    reader.onloadend =()=>{
+        // ブロック内の処理は、画像が読み込まれた後に実行される
+        const base64image = reader.result as string;
+
+        setSpendRequest((prevState)=>{
+            const updatedItems=[...prevState.spend_request_item];
+            updatedItems[index].image_save=base64image;
+            return {...prevState,spend_request_item: updatedItems};
+        })
+    }
+    reader.readAsDataURL(file);
+  
+  };
+
   const handleInputChange = (
     index: number,
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -116,7 +139,6 @@ const CreateSpendRequestFormComponent = () => {
       invoice_number: parsed.invoice_number,
       contact_number: parsed.contact_number,
       memo: event.description || "",
-      image_save: null,
     };
 
     // 更新された `spend_request_item` 配列をセット
@@ -191,7 +213,8 @@ const CreateSpendRequestFormComponent = () => {
             <div className="w-full h-fit flex-row lg:flex">
                       
               <div className="lg:w-1/2 h-full flex-none sticky top-0 lg:pr-1.5">
-                <ImageFormComponent />
+              <input type="file" accept="image/jpeg, image/png" onChange={(e)=>handleInputImage(e,index)}/>
+              <ImagePreviewComponent base64image={item.image_save}/>
               </div>
               <div className="lg:w-1/2 flex-none lg:pr-1 lg:pl-1.5">
               <div key={index} className="">
