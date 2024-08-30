@@ -113,7 +113,7 @@ const UpdateSpendRequestFormComponent = (
                 <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
                 
                 <div className="w-full h-full flex-grow overflow-auto px-3">
-                    <div className="w-full h-full bg-red-300">
+                    <div className="w-full h-full">
                         {spendRequest.spend_request_item.map((item, index) => (
                             <div key={index} className="w-full h-fit flex">
                                 <div className="w-1/2 mt-4">
