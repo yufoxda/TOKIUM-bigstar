@@ -41,8 +41,8 @@ const CreateSpendRequestFormComponent = () => {
       date_of_use: "",
       amount: 0,
       keihi_class: "",
-      invoice_number: null,
-      contact_number: null,
+      invoice_number: 0,
+      contact_number: 0,
       memo: "",
       image_save: null
     }]
@@ -203,7 +203,7 @@ const CreateSpendRequestFormComponent = () => {
         <label className="mb-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
         <input type="text" name="purpose" className="inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
         
-        <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
+        <label className="my-2 text-xl block text-gray-800">訪問先<span className="text-red-600 text-base">*</span></label>
         <input type="text" name="spend_to" className="inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
         
         <div className="w-full h-full flex-grow overflow-auto mt-3">
