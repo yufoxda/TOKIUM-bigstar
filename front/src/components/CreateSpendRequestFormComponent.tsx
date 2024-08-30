@@ -4,7 +4,9 @@ import { useAuth } from '../hooks/useAuth';
 import useCalendar from '../hooks/useCalendar';
 import formatDateToJapanese, { formatDateToYYYYMMDD } from '../utils/formatDate';
 import parseDescription from '../utils/parseDescription';
-import { ImageFormComponent } from './ImageFormComponent';
+import { ImagePreviewComponent } from './ImagePreviewComponent';
+import SpendRequestForm from './CheckRequestFormComponent';
+
 
 interface SpendRequestItem {
   date_of_use: string;
@@ -32,6 +34,7 @@ const CreateSpendRequestFormComponent = () => {
   const { register, handleSubmit } = useForm<SpendRequest>();
   const API_URL = "http://localhost:3000/api/v1";
 
+
   const [spendRequest, setSpendRequest] = useState<SpendRequest>({
     user_id: currentUser.id,
     status: "pending",
@@ -47,6 +50,8 @@ const CreateSpendRequestFormComponent = () => {
       image_save: null
     }]
   });
+
+
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -83,7 +88,31 @@ const CreateSpendRequestFormComponent = () => {
     values[index][event.target.name as keyof SpendRequestItem] =
       event.target.value;
     setSpendRequest({ ...spendRequest, spend_request_item: values });
+    console.log(spendRequest.spend_request_item[0].image_save)
   };
+
+  // inputタグから画像ファイルを取得し、base64にエンコードしてspendRequestに保存する
+  const handleInputImage = (e: any,index: number) => {
+    const file = e.target.files[0]; // 一つのinputタグあたりに1つまで画像を許容
+    if (!file){
+      //画像ファイルがない場合は何もしない
+      return
+    }
+
+    const reader= new FileReader();
+    reader.onloadend =()=>{
+        // ブロック内の処理は、画像が読み込まれた後に実行される
+        const base64image = reader.result as string;
+        
+        setSpendRequest((prevState)=>{
+            const updatedItems=[...prevState.spend_request_item];
+            updatedItems[index].image_save=base64image;
+            return {...prevState,spend_request_item: updatedItems};
+        })
+    }
+    reader.readAsDataURL(file);
+
+};
 
   const handleAddItem = () => {
     setSpendRequest({
@@ -101,6 +130,7 @@ const CreateSpendRequestFormComponent = () => {
         },
       ],
     });
+    console.timeLog(spendRequest.spend_request_item[0].image_save)
   };
 
   const handleCalenderEventClick = (event: any) => {
@@ -139,6 +169,7 @@ const CreateSpendRequestFormComponent = () => {
     }
   };
 
+
   const onSubmit: SubmitHandler<SpendRequest> = async (data) => {
     const payload = { spend_request: spendRequest };
     console.log(payload);
@@ -165,6 +196,7 @@ const CreateSpendRequestFormComponent = () => {
     window.location.reload();
   };
 
+
   return (
     <form method="POST" onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
       <div className="w-full h-full flex flex-col">
@@ -181,8 +213,9 @@ const CreateSpendRequestFormComponent = () => {
           <div className="w-full h-full">
             {spendRequest.spend_request_item.map((item, index) => (
               <div key={index} className="w-full h-fit flex">
-                <div className="w-1/2">
-                  <ImageFormComponent />
+                <div className="w-1/2 flex flex-col items-center">
+                  <input type="file" accept="image/jpeg, image/png" className="left-2 mt-4 mb-2" onChange={(e)=>handleInputImage(e,index)}/>
+                  <ImagePreviewComponent base64image={item.image_save}/>
                 </div>
                 <div className="w-1/2">
                   {/* モーダル表示ボタン */}
