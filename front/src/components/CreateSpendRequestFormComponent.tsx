@@ -167,34 +167,34 @@ const CreateSpendRequestFormComponent = () => {
 
   return (
     <form method="POST" onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
-      <div className="w-full h-full flex flex-col">
-        <div className="h-14 flex items-center text-3xl my-3 px-3">
-          新規作成
+      <div className="w-full h-full flex flex-col px-3">
+        <div className="h-14 w-full my-3 flex items-center  flex-none">
+            <div className=" w-1/2 my-auto text-3xl flex-none ">
+                新規作成
+            </div>
+            {/* モーダル表示ボタン */}
+            <button type="button" onClick={() => setShowModal(true)}
+                className="flex-none h-full w-1/2 bg-blue-500 text-white  mx-auto rounded">
+                Googleカレンダーから入力
+            </button>
         </div>
-        <label className="my-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
-        <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose} />
-
+        <label className="mb-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
+        <input type="text" name="purpose" className="inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
+        
         <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
-        <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to} />
-
-        <div className="w-full h-full flex-grow overflow-auto px-3">
+        <input type="text" name="spend_to" className="inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
+        
+        <div className="w-full h-full flex-grow overflow-auto mt-3">
           <div className="w-full h-full">
             {spendRequest.spend_request_item.map((item, index) => (
-              <div key={index} className="w-full h-fit flex">
-                <div className="w-1/2">
-                  <ImageFormComponent />
-                </div>
-                <div className="w-1/2">
-                  {/* モーダル表示ボタン */}
-                  <button
-                    type="button"
-                    onClick={() => setShowModal(true)}
-                    className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 mx-auto rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  >
-                    Googleカレンダーから入力
-                  </button>
-
-                  <div>
+              <>
+            <div className="w-full h-fit flex-row lg:flex">
+                      
+              <div className="lg:w-1/2 h-full flex-none sticky top-0 lg:pr-1.5">
+                <ImageFormComponent />
+              </div>
+              <div className="lg:w-1/2 flex-none lg:pr-1 lg:pl-1.5">
+              <div key={index} className="">
                     <label className="my-2 text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
                     <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.date_of_use} />
 
@@ -214,22 +214,25 @@ const CreateSpendRequestFormComponent = () => {
                     <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.memo} />
                   </div>
                   <button type="button" className="w-full px-4 rounded bg-white" onClick={() => handleRemoveItem(index)}>
-                    <svg className="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
+
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
                   </button>
+
                 </div>
               </div>
+              </>
             ))}
-            <button type="button" className="bg-white py-2 px-4 rounded w-full" onClick={handleAddItem}>
-              <svg className="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-            </button>
+             <button type="button" className="bg-white py-2 px-4 rounded w-full" onClick={handleAddItem}>
+                  <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>
+              </button>
           </div>
         </div>
-        <div className="h-12 w-full flex-none">
-          <button className="w-full bg-green-500 text-white rounded" type="submit">申請</button>
+        <div className="h-fit flex-none my-3">
+            <button className="h-14 w-full bg-green-500 text-white rounded" type="submit">申請</button>
         </div>
       </div>
 
