@@ -62,8 +62,8 @@ const HeaderComponent = ({ role }) => {
       <button onClick={() => handleChangeRole(token, currentUser)} className="mx-auto rounded p-1.5">
         now: {currentUser.role}
       </button>
-      <div className="absolute right-0 flex items-center mx-3">
-        <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-neutral-300">
+      <div className="absolute right-0 flex items-center p-3">
+        <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-neutral-200">
           {!currentUser.profile ? (
             <svg
               className="h-1/2 w-1/2 text-secondary-400"

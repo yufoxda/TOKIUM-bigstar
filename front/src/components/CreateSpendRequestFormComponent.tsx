@@ -41,8 +41,8 @@ const CreateSpendRequestFormComponent = () => {
       date_of_use: "",
       amount: 0,
       keihi_class: "",
-      invoice_number: null,
-      contact_number: null,
+      invoice_number: 0,
+      contact_number: 0,
       memo: "",
       image_save: null
     }]
@@ -134,10 +134,10 @@ const CreateSpendRequestFormComponent = () => {
     updatedItems[updatedItems.length - 1] = {
       ...updatedItems[updatedItems.length - 1],
       date_of_use: formatDateToYYYYMMDD(event.start) || "",
-      amount: parsed.amount,
-      keihi_class: parsed.keihi_class,
-      invoice_number: parsed.invoice_number,
-      contact_number: parsed.contact_number,
+      amount: parsed.amount || 0,
+      keihi_class: parsed.keihi_class || 0,
+      invoice_number: parsed.invoice_number || null,
+      contact_number: parsed.contact_number || null,
       memo: event.description || "",
     };
 
@@ -203,7 +203,7 @@ const CreateSpendRequestFormComponent = () => {
         <label className="mb-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
         <input type="text" name="purpose" className="inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
         
-        <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
+        <label className="my-2 text-xl block text-gray-800">訪問先<span className="text-red-600 text-base">*</span></label>
         <input type="text" name="spend_to" className="inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
         
         <div className="w-full h-full flex-grow overflow-auto mt-3">
@@ -213,7 +213,7 @@ const CreateSpendRequestFormComponent = () => {
             <div className="w-full h-fit flex-row lg:flex">
                       
               <div className="lg:w-1/2 h-full flex-none sticky top-0 lg:pr-1.5">
-              <input type="file" accept="image/jpeg, image/png" onChange={(e)=>handleInputImage(e,index)}/>
+              <input type="file" accept="image/jpeg, image/png" onChange={(e)=>handleInputImage(e,index)} className="my-2 text-xl block text-gray-800"/>
               <ImagePreviewComponent base64image={item.image_save}/>
               </div>
               <div className="lg:w-1/2 flex-none lg:pr-1 lg:pl-1.5">
@@ -285,11 +285,13 @@ const CreateSpendRequestFormComponent = () => {
                       <div>
                         <p>該当するイベントを押して直接入力ができます</p>
                         <p>複数日に渡って予定が入っている場合は開始日が入力されます</p>
+                        <div className="flex flex-col gap-y-1">
                         {events.map((event) => (
-                          <button key={event.id} className="bg-blue-400 text-white" onClick={() => handleCalenderEventClick(event)}>
+                          <button  key={event.id} className="bg-blue-400 text-white" onClick={() => handleCalenderEventClick(event)}>
                             {formatDateToJapanese(event.start)}, {event.summary} {event.location && `, (${event.location})`}
                           </button>
                         ))}
+                      </div>
                       </div>
                     )}
                   </div>

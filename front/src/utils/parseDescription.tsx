@@ -10,6 +10,10 @@ export const parseDescription = (event:any) => {
         contract_number: null,
     }
     
+    if (description === undefined || description === null) {
+        return data;
+    }
+
     const descriptionArray = description.split("\n");
     descriptionArray.forEach((line) => {
         if (line.startsWith('[金額]')) {

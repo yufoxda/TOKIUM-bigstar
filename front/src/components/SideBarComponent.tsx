@@ -60,9 +60,9 @@ const SideBar = ({ keihis, setIs_create, setdetail_id, onButtonClick }) => {
   const getStatusClassName = (status: string) => {
     switch (status) {
       case "approve":
-        return "bg-green-600"; // 緑
+        return "bg-green-300"; // 緑
       case "reject":
-        return "bg-red-600"; // 赤
+        return "bg-red-300"; // 赤
       default:
         return ""; // デフォルト色
     }

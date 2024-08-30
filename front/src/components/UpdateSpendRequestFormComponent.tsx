@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { ImagePreviewComponent } from './ImagePreviewComponent';
 
 interface SpendRequestItem {
   date_of_use: string;
@@ -100,27 +101,30 @@ const UpdateSpendRequestFormComponent = (
     return (
         
         <form method="POST" onSubmit={handleSubmit} className="w-full h-full">
-            <div className="w-full h-full flex flex-col">
-            <div className="h-14 flex items-center text-3xl my-3 px-3 ">
+      <div className="w-full h-full flex flex-col px-3">
+        <div className="h-14 w-full my-3 flex items-center  flex-none">
+            <div className=" w-1/2 my-auto text-3xl flex-none ">
                 編集
             </div>
+                </div>
+                <label className="mb-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
+                <input type="text" name="purpose" className="inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
+                
+                <label className="my-2 text-xl block text-gray-800">訪問先<span className="text-red-600 text-base">*</span></label>
+                <input type="text" name="spend_to" className="inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
+        
 
-                <div className="w-full h-full flex-grow overflow-auto px-3">
-                    <div className="w-full h-full">
-                        <div className="w-full h-fit flex">
-                            <div className="w-1/2">
-                            {console.log("UpdateSpendRequestFormComponent")}
-                                <input type="file" name="image_save" accept="image/jpg, image/png" onChange={(e) => handleInputChange(0, e as ChangeEvent<HTMLInputElement>)} />
-                            </div>
-                            <div className="w-1/2">
-                                <label className="mb-2 text-xl block text-gray-800">目的<span className="text-red-600 text-base">*</span></label>
-                                <input type="text" name="purpose" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.purpose}/>
-
-                                <label className="my-2 text-xl block text-gray-800">支払先<span className="text-red-600 text-base">*</span></label>
-                                <input type="text" name="spend_to" className="mt-1 inputcss" required onChange={handleTopLevelChange} value={spendRequest.spend_to}/>
-
-                            {spendRequest.spend_request_item.map((item, index) => (
-                                <>
+                <div className="w-full h-full flex-grow overflow-auto mt-3">
+                <div className="w-full h-full">
+                    {spendRequest.spend_request_item.map((item, index) => (
+                    <>
+                    <div className="w-full h-fit flex-row lg:flex">
+                    <div className="lg:w-1/2 h-full flex-none sticky top-0 lg:pr-1.5">
+                        <input type="file" accept="image/jpeg, image/png" onChange={(e)=>handleInputImage(e,index)}/>
+                        <ImagePreviewComponent base64image={item.image_save}/>
+                    </div>
+                    <div className="lg:w-1/2 flex-none lg:pr-1 lg:pl-1.5">
+                    <div key={index} className="">
                                 <div key={index} className="flex flex-col mx-auto">
                                     <label className="my-2 text-xl block text-gray-800">利用日<span className="text-red-600 text-base">*</span></label>
                                     <input type="date" name="date_of_use" className="mt-1 inputcss" required onChange={(e) => handleInputChange(index, e)} value={item.date_of_use}/>
@@ -140,31 +144,30 @@ const UpdateSpendRequestFormComponent = (
 
                                     <label className="my-2 text-xl block text-gray-800">メモ</label>
                                     <textarea name="memo" className="mt-1 inputcss" onChange={(e) => handleInputChange(index, e)} value={item.memo}/>
-                                </div>
+                                
                                 <button type="button" className="w-full px-4 rounded bg-white" onClick={() => handleRemoveItem(index)}>
-
-                                <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                </svg>
-
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
                                 </button>
-                                </>
+                          
+                                </div>
+                    </div>
+                    </div>
+                    </div>
+                    </>
                             ))}
                             
-                            </div>                    
-                        </div>
                         <button type="button" className="bg-white py-2 px-4 rounded w-full" onClick={handleAddItem}>
-                            <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                            </svg>
-                        </button>
-                        
-                    </div>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white mx-auto" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                        </svg>
+                    </button>
                 </div>
-                <div className="h-12 w-full flex-none">
-                    <button className=" w-full bg-green-500 text-white rounded" type="submit">変更</button>
-                </div>
-                
+              </div>
+              <div className="h-fit flex-none my-3">
+                  <button className="h-14 w-full bg-green-500 text-white rounded" type="submit">申請</button>
+              </div>
             </div>
 
         </form>

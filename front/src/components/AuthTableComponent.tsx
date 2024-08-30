@@ -137,7 +137,7 @@ const AuthTableComponent = () => {
             申請状況: <span className="font-normal">{item.status}</span>
           </p>
           <p className="text-lg font-bold">
-            申請先: <span className="font-normal">{item.spend_to}</span>
+            訪問先: <span className="font-normal">{item.spend_to}</span>
           </p>
           <p className="text-lg font-bold">
             目的: <span className="font-normal">{item.purpose}</span>

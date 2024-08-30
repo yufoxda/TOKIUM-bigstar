@@ -48,15 +48,15 @@ export const ContentsPage = () => {
   } else if (currentUser.role == "auth") {
     // authの時のコンポーネント
     return (
-      <div className="w-screen h-screen flex flex-col">
+      <div className="w-screen min-w-fit h-screen overflow-x-hidden flex flex-col">
         <HeaderComponent role={currentUser.role} />
-        <div className="flex flex-grow">
+        <div className="flex-1 flex min-h-0">
           {/* サイドバーにkeihiのpropsを渡す */}
           {/* <SideBar className="h-full" keihis={keihis} setIs_create={setIs_create} setdetail_id={setdetail_id}/> */}
           {/* <div className="flex-grow">
             <CheckRequestForm className="h-full" is_create={is_create} detail_id={detail_id}/>
           </div> */}
-          <AuthTableComponent />
+          <AuthTableComponent className="h-full" />
         </div>
       </div>
     );
