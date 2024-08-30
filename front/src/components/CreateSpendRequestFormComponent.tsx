@@ -212,7 +212,7 @@ const CreateSpendRequestFormComponent = () => {
               <>
             <div className="w-full h-fit flex-row lg:flex">
                       
-              <div className="lg:w-1/2 h-full flex-none sticky top-0 lg:pr-1.5">
+              <div className="lg:w-1/2 h-full flex-none lg:sticky lg:top-0 lg:pr-1.5">
               <input type="file" accept="image/jpeg, image/png" onChange={(e)=>handleInputImage(e,index)} className="my-2 text-xl block text-gray-800"/>
               <ImagePreviewComponent base64image={item.image_save}/>
               </div>
