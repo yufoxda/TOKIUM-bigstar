@@ -285,11 +285,13 @@ const CreateSpendRequestFormComponent = () => {
                       <div>
                         <p>該当するイベントを押して直接入力ができます</p>
                         <p>複数日に渡って予定が入っている場合は開始日が入力されます</p>
+                        <div className="flex flex-col gap-y-1">
                         {events.map((event) => (
                           <button key={event.id} className="bg-blue-400 text-white" onClick={() => handleCalenderEventClick(event)}>
                             {formatDateToJapanese(event.start)}, {event.summary} {event.location && `, (${event.location})`}
                           </button>
                         ))}
+                      </div>
                       </div>
                     )}
                   </div>
